@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: url(history.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: sans-serif;
+}
+
+.header {
+  margin-top: 100px;
+  color: #fff;
+  transition: all 4s ease-in-out;
+}
+
+.header h2 {
+  font-size: 32 px;
+  line-height: 10px;
+}

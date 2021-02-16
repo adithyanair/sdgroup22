@@ -40,7 +40,7 @@
 		<!-- logged in user information -->
 		<?php  if (isset($_SESSION['username'])) : ?>
 		<p> <p> <font color = white> Welcome! <strong><?php echo $_SESSION['username']; ?></strong></p>
-		<p> <a href="index.php?logout='1'" style="color: #ff392e;">LOGOUT</a> </p>	
+		<p> <a href="index.php?logout='1'" style="color: #fff;">LOGOUT</a> </p>	
 
         
 		<button class ="ins_btn" onclick="window.location.href = 'user_profile/update_profile.php';">Complete User Profile</button>
