@@ -43,7 +43,7 @@
 		<p> <a href="index.php?logout='1'" style="color: #fff;">LOGOUT</a> </p>	
 
         
-		<button class ="ins_btn" onclick="window.location.href = 'user_profile/update_profile.php';">Complete User Profile</button>
+		<button class ="ins_btn" onclick="window.location.href = 'user_info/update_profile.php';">Complete User Profile</button>
 		<button class ="ins_btn" onclick="window.location.href = 'fuel_form/fuel_quote_form.php';">Fuel Quote Form</button>
 		<button class ="ins_btn" onclick="window.location.href = 'fuel_history/fuel_quote_history.php';">Fuel Quote History</button>
 		<?php endif ?>

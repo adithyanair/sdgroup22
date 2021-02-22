@@ -22,7 +22,7 @@
 
         	<input type="text" class="form-control" placeholder="Delivery Address" name="client_add1"><br><br>
 
-            <input type="text" class="form-control" placeholder="Delivery Date" name="del_date"><br><br>
+            <input type="date" class="form-control" placeholder="Delivery Date" name="del_date"><br><br>
             <!---this will be calculated later PRICING MODULE--->
             <input type="text" class="form-control" placeholder="Suggested Price" name="pricing_mod" required><br><br>
 
