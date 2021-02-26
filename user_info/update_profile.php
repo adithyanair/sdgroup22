@@ -2,59 +2,98 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title> PROFILE SETUP </title>
 	<link rel="stylesheet" type="text/css" href="user_style.css">
 </head>
 <body>
 	<div class="header">
-		<h2>ADD CLIENT INFO</h2>
-        <h2>Complete setting up your profile</h2>
+        <h1>Setup or Update Your Profile</h1>
 	</div>
 
-	<form method="post" action="add_customer.php">
+	<form method="post" action="../index.php"> <!--WILL BE USED AFTER ASSIGNMENT 2"add_customer.php"-->
 
 		<?php include('errors.php'); ?>
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Full Name" name="client_fname"required>
+			<input type="text" class="form-control" placeholder=" Client Name" name="client_name" maxlength="50" required>
 		</div>
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Address 1" name="client_add1"required>
+			<input type="text" class="form-control" placeholder=" Address 1" name="client_add1" maxlength="100" required>
 		</div>
 		<div class="input-group">
             <!--- This is optional --->
-			<input type="text" class="form-control" placeholder="Address 2" name="client_add2">
+			<input type="text" class="form-control" placeholder=" Address 2" name="client_add2" maxlength="100" >
 		</div>
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="City" name="city"required>
+			<input type="text" class="form-control" placeholder=" City" name="city" maxlength="100" required>
 		</div>
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Zip Code" name="zipcode"required>
+			<!-- This will be connected with DB for the list of states -->
+			<select class="state-control" id = "state" placeholder="State" name="state" required> 
+			<option class="form-control" value="" placeholder="State">State</option>
+ 		    <option value="AL">Alabama</option>
+		    <option value="AK">Alaska</option>
+		    <option value="AZ">Arizona</option>
+		    <option value="AR">Arkansas</option>
+		    <option value="CA">California</option>
+		    <option value="CO">Colorado</option>
+		    <option value="CT">Connecticut</option>
+		    <option value="DE">Delaware</option>
+		    <option value="FL">Florida</option>
+		    <option value="GA">Georgia</option>
+		    <option value="HI">Hawaii</option>
+		    <option value="ID">Idaho</option>
+		    <option value="IL">Illinois</option>
+		    <option value="IN">Indiana</option>
+		    <option value="IA">Iowa</option>
+		    <option value="KS">Kansas</option>
+		    <option value="KY">Kentucky</option>
+		    <option value="LA">Louisiana</option>
+		    <option value="ME">Maine</option>
+		    <option value="MD">Maryland</option>
+		    <option value="MA">Massachusetts</option>
+		    <option value="MI">Michigan</option>
+		    <option value="MN">Minnesota</option>
+		    <option value="MS">Mississippi</option>
+		    <option value="MO">Missouri</option>
+		    <option value="MT">Montana</option>
+		    <option value="NE">Nebraska</option>
+		    <option value="NV">Nevada</option>
+		    <option value="NH">New Hampshire</option>
+		    <option value="NJ">New Jersey</option>
+		    <option value="NM">New Mexico</option>
+		    <option value="NY">New York</option>
+		    <option value="NC">North Carolina</option>
+		    <option value="ND">North Dakota</option>
+		    <option value="OH">Ohio</option>
+		    <option value="OK">Oklahoma</option>
+		    <option value="OR">Oregon</option>
+		    <option value="PA">Pennsylvania</option>
+		    <option value="RI">Rhode Island</option>
+		    <option value="SC">South Carolina</option>
+		    <option value="SD">South Dakota</option>
+		    <option value="TN">Tennessee</option>
+		    <option value="TX">Texas</option>
+		    <option value="UT">Utah</option>
+		    <option value="VT">Vermont</option>
+		    <option value="VA">Virginia</option>
+		    <option value="WA">Washington</option>
+		    <option value="WV">West Virginia</option>
+		    <option value="WI">Wisconsin</option>
+		    <option value="WY">Wyoming</option>
+			</select>  
+		</div>
+
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder=" Zip Code" name="zipcode" minlength="5" maxlength="9" required>
 		</div> 
-
-		<div class="input-group">
-            <!--- This needs to be a dropdown
-			<input type="text" class="form-control" placeholder="State" name="state">  
-			This will be connected with DB for the list of states--->
-			<select id = "state"> 
-			<option class="form-control" placeholder="State">State</option>}  
- 		    <option value="Alabama">AL</option>  
-            <option value="Alaska">AK</option>  
-            <option value="Arizona">AZ</option>  
-            <option value="Arkansas">AR</option>  
-            <option value="California">CA</option>  
-            <option value="Colorado">CO</option>  
-            <option value="Connecticut">CT</option>  
-            <option value="Delaware">DE</option>  
-			<select>  
-		</div>
-
-
 		
 		<div class="input-group">
 			<button type="submit" class="form-control submit" name="submit">Submit</button>
 		</div>
-		<p> <a href='../index.php' style='color: #050f63;'>back to home </a> </p>
+		
+		<a href='../index.php' style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a>
 
 	</form>
 </body>

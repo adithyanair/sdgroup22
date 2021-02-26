@@ -4,25 +4,24 @@
 
     <head>
 
-        <title> FUEL HISTORY </title>
+        <title> FUEL QUOTE HISTORY </title>
         <link rel="stylesheet" type="text/css" href="fuelhistory_style.css">
 
     </head>
 	<div class="header">
-		<h2>FUEL HISTORY </h2>
-        <h2>Tabular display of all client quotes in the past. </h2>
+		<h1>Your Fuel Quote History </h1>
 	</div>
 	<div class="content">
     <table id="t01">
   <tr>
     <th>Client Name</th>
-    <th>Gallon Requested</th> 
+    <th>Gallon(s) Requested</th> 
     <th>Delivery Address</th>
     <th>Delivery Date</th>
-    <th>Suggested Price</th>
+    <th>Estimated Price</th>
     <th>Total Amount Due</th>
   </tr>
 </table>
-    <p> <a href='../index.php' style='color:#fff;'>return to home</a> </p>
+    <p> <a href='../index.php' style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a> </p>
 
 </html>

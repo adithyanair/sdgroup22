@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login and register</title>
+	<title> REGISTRATION </title>
 	<link rel="stylesheet" type="text/css" href="style_login_page.css">
 </head>
 <body>
@@ -16,10 +16,10 @@
 
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Enter desired username." name="employee_fname" ?>">
+			<input type="text" class="form-control" placeholder="Enter desired username" name="register_new_username">
 		</div>
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Enter desired Password" name="employee_lname" ?>">
+			<input type="password" class="form-control" placeholder="Enter desired password" name="register_new_password">
 		</div>
 		
 
@@ -27,7 +27,7 @@
 			<button type="submit" class="form-control submit" name="reg_user">Register</button>
 		</div>
 		<p>
-		 <a href="login.php">Return to the log in page</a>
+		 <a href="login.php" style='color:#d9eaff; font-size:18px; letter-spacing:1px;">'>Return to Login</a>
 		</p>
 	</form>
 </body>

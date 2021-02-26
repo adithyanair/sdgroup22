@@ -31,7 +31,7 @@
 
         	<input type="submit" class="form-control submit" name="fuelform" value="Submit Form">
 		
-		<a href='../index.php' style='color:#ffffff; font-size:17px; letter-spacing:2px; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a>
+		<a href='../index.php' style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a>
 		
 		
 		<p>Please fill this field: </p>

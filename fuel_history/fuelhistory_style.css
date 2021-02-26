@@ -4,19 +4,22 @@ body {
   text-align: center;
   background: url(history.jpg);
   background-size: cover;
-  background-position: center;
+  background-attachment: fixed;
   font-family: sans-serif;
 }
 
 .header {
-  margin-top: 100px;
+  margin-top: 120px;
   color: #fff;
   transition: all 4s ease-in-out;
 }
 
-.header h2 {
+.header h1 {
   font-size: 32 px;
   line-height: 10px;
+  margin-bottom: 60px;
+  text-shadow: 5px 5px 4px #000000;
+  letter-spacing: 1px;
 }
 
 table,
@@ -31,6 +34,9 @@ td {
   text-align: left;
 }
 #t01 {
-  width: 100%;
+  width: 90%;
   background-color: #f0f0dc;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 5px 10px 18px #000000;
 }

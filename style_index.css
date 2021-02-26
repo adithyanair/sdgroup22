@@ -4,7 +4,7 @@ body {
   text-align: center;
   background: url(homepage.jpg);
   background-size: cover;
-  background-position: center;
+  background-attachment: fixed;
   font-family: sans-serif;
 }
 
@@ -16,13 +16,14 @@ form {
 .header {
   margin-top: 100px;
   color: #fff;
-  text-transformation: uppercase;
   transition: all 4s ease-in-out;
 }
 
 .header h2 {
   font-size: 32px;
   line-height: 10px;
+  text-shadow: 5px 5px 4px #000000;
+  letter-spacing: 1px;
 }
 
 .form-control {
@@ -44,7 +45,7 @@ form .submit {
   border-color: transparent;
   color: #fff;
   font-size: 20px;
-  form-weight: bold;
+  font-weight: bold;
   letter-spacing: 2px;
   height: 50px;
   margin-top: 20px;
@@ -53,10 +54,12 @@ form .submit {
 p {
   border-color: transparent;
   font-size: 30px;
-  form-weight: bold;
-  letter-spacing: 2px;
-  height: 50px;
-  margin-top: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  height: 10px;
+  margin-top: 120px;
+  margin-bottom: -30px;
+  text-shadow: 4px 4px 4px #000000;
 }
 
 .btn {
@@ -70,10 +73,20 @@ p {
 .ins_btn {
   padding: 10px;
   font-size: 25px;
-  background: white;
-  border: none;
+  background: #fae9e8;
+  border: 2px solid #c4362d;
   border-radius: 5px;
+  margin: 4px 22px;
+  transition-duration: 0.5s;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
+
+.ins_btn:hover {
+  background-color: #c4362d;
+  color: white;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 60px 60px 0 rgba(0,0,0,0.19);
+}
+
 .rep_btn {
   padding: 10px;
   font-size: 25px;
