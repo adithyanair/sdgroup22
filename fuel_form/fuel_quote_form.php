@@ -17,20 +17,25 @@
     <body>
 
         <form action="fuel_quote_form.php" method="post">
-
-        	<input type="text" class="form-control" placeholder="Gallon Requested" name="gallon_req" required><br><br>
-
-        	<input type="text" class="form-control" placeholder="Delivery Address" name="client_add1"><br><br>
+			
+        	<input type="number" step="any" class="form-control" placeholder="Number of Gallons Requested" name="gallon_req" required><br><br>
+			
+			<!---this will be pulled later from DATABASE--->
+        	<input type="text" class="form-control" placeholder="Delivery Address" name="client_add1" readonly><br><br>
 
             <input type="date" class="form-control" placeholder="Delivery Date" name="del_date"><br><br>
-            <!---this will be calculated later PRICING MODULE--->
-            <input type="text" class="form-control" placeholder="Suggested Price" name="pricing_mod" required><br><br>
+            <!---this will be calculated later from PRICING MODULE--->
+            <input type="text" class="form-control" placeholder="Suggested Price Per Gallon" name="pricing_mod" readonly><br><br>
 
-            <input type="text" class="form-control" placeholder="Total Amount Due" name="total" required><br><br>
+            <input type="text" class="form-control" placeholder="Total Amount Due" name="total" readonly><br><br>
 
         	<input type="submit" class="form-control submit" name="fuelform" value="Submit Form">
 		
-		<p> <a href='../index.php' style='color:#050f63;'>return to home</a> </p>
+		<a href='../index.php' style='color:#ffffff; font-size:17px; letter-spacing:2px; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a>
+		
+		
+		<p>Please fill this field: </p>
+		
 
         </form>
 

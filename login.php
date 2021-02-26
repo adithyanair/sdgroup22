@@ -1,4 +1,4 @@
-<?php include('server.php') ?>
+<?php //include('server.php') ?> <!---Will be connected later--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +14,7 @@
 	
 	<form method="post" action="login.php">
 
-		<?php include('errors.php'); ?>
+		<?php //include('errors.php'); ?>  <!---Will be connected later--->
 
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Username" name="username" >
@@ -25,9 +25,7 @@
 		<div class="input-group">
 			<button type="submit" class="form-control submit" name="login_user">Login</button>
 		</div>
-		<p>
-			<a href="register.php">Don't have an account? Register here</a>
-		</p>
+			<a href="register.php" style='color:#ffffff; font-size:16px; letter-spacing:1px; position:fixed; right:430px;">'>Don't have an account? Register here</a>
 	</form>
 
 
