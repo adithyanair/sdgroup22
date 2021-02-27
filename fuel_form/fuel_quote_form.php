@@ -23,7 +23,7 @@
 			<!---this will be pulled later from DATABASE--->
         	<input type="text" class="form-control" placeholder="Delivery Address" name="client_add1" readonly><br><br>
 
-            <input type="date" class="form-control" placeholder="Delivery Date" name="del_date" required><br><br>
+            <input type="text" class="form-control" placeholder="Delivery Date" name="del_date" onfocus="(this.type='date')" required><br><br>
             <!---this will be calculated later from PRICING MODULE--->
             <input type="text" class="form-control" placeholder="Suggested Price Per Gallon" name="pricing_mod" readonly><br><br>
 
