@@ -72,3 +72,19 @@ p {
   right: 415px;
   text-shadow: 1px 1px 1px #000000;
 }
+
+p2 {
+  border-color: transparent;
+  color: #050f63;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 220px;
+  position: relative;
+  top: -385px;
+  right: 415px;
+  text-shadow: 1px 1px 1px #000000;
+}
