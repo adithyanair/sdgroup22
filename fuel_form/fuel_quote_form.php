@@ -3,19 +3,15 @@
 <html>
 
     <head>
-
         <title> FUEL QUOTE FORM </title>
         <link rel="stylesheet" type="text/css" href="fuelform_style.css">
-
     </head>
+	
 	<div class="header">
 		<h2>FUEL QUOTE FORM </h2>
 	</div>
-	<div class="content">
-
 
     <body>
-
         <form method="post" action="../index.php" >
 			
         	<input type="number" step="any" class="form-control" placeholder="Number of Gallons Requested" name="gallon_req" min="0" onkeypress="return event.charCode != 45" required><br><br>
@@ -31,17 +27,13 @@
 
         	<input type="submit" class="form-control submit" name="fuelform" value="Submit Form">
 		
-		<a href='../index.php' style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a>
+			<a href='../index.php' style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a>
+			
+			<p>Please fill this field: </p>
+			
+			<p2>Please fill this field: </p2>
 		
-		
-		<p>Please fill this field: </p>
-		
-		<p2>Please fill this field: </p2>
-		
-
         </form>
-
     </body>
-
 
 </html>
