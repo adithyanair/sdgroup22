@@ -10,7 +10,7 @@
 		<h2>REGISTER A NEW ACCOUNT</h2>
 	</div>
 	
-	<form method="post" action="register.php">
+	<form method="post" action="user_info/update_profile.php">
 
 		<?php include('errors.php'); ?>
 

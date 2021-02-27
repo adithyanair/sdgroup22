@@ -16,9 +16,9 @@
 
     <body>
 
-        <form action="fuel_quote_form.php" method="post">
+        <form method="post" action="../index.php" >
 			
-        	<input type="number" step="any" class="form-control" placeholder="Number of Gallons Requested" name="gallon_req" required><br><br>
+        	<input type="number" step="any" class="form-control" placeholder="Number of Gallons Requested" name="gallon_req" min="0" onkeypress="return event.charCode != 45" required><br><br>
 			
 			<!---this will be pulled later from DATABASE--->
         	<input type="text" class="form-control" placeholder="Delivery Address" name="client_add1" readonly><br><br>

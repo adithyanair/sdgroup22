@@ -1,4 +1,4 @@
-# COSC4353 - Project for Group 22
+# COSC4353-20300 Spring 2021 - Project for Group 22
 
 Group Members: Adithya Nair, Shatavari Shinde, Tyler Hu. 
 

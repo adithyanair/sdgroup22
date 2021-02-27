@@ -46,9 +46,9 @@
 		<!-- REMOVE ME AFTER ASSIGNMENT 2 -->
 		<p> <a href="login.php" style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>LOGOUT</a> </p>	
         
-		<button class ="ins_btn" onclick="window.location.href = 'user_info/update_profile.php';">Complete User Profile</button>
-		<button class ="ins_btn" onclick="window.location.href = 'fuel_form/fuel_quote_form.php';">Fuel Quote Form</button>
-		<button class ="ins_btn" onclick="window.location.href = 'fuel_history/fuel_quote_history.php';">Fuel Quote History</button>
+		<button class ="ins_btn" onclick="window.location.href = 'user_info/update_profile.php';">Update User Profile</button>
+		<button class ="ins_btn" onclick="window.location.href = 'fuel_form/fuel_quote_form.php';">Get a Fuel Quote</button>
+		<button class ="ins_btn" onclick="window.location.href = 'fuel_history/fuel_quote_history.php';">View Your Quote History</button>
 		<?php endif ?>
 		</form> 		
 	</div>
