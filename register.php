@@ -1,4 +1,4 @@
-<?php include('server.php') ?>
+<?php //include('server.php') ?> <!--WILL USE LATER-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +12,14 @@
 	
 	<form method="post" action="user_info/update_profile.php">
 
-		<?php include('errors.php'); ?>
+		<?php //include('errors.php'); ?> <!--WILL USE LATER-->
 
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Enter desired username" name="register_new_username">
+			<input type="text" class="form-control" placeholder="Enter desired username" name="register_new_username" required>
 		</div>
 		<div class="input-group">
-			<input type="password" class="form-control" placeholder="Enter desired password" name="register_new_password">
+			<input type="password" class="form-control" placeholder="Enter desired password" name="register_new_password" required>
 		</div>
 		
 

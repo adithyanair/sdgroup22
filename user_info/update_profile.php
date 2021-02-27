@@ -1,4 +1,4 @@
-<?php include('server.php') ?>
+<?php //include('server.php') ?> <!--WILL USE LATER-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,9 +10,9 @@
         <h1>Setup or Update Your Profile</h1>
 	</div>
 
-	<form method="post" action="../index.php"> <!--WILL BE USED AFTER ASSIGNMENT 2"add_customer.php"-->
+	<form method="post" action="../index.php"> <!--WILL BE USED AFTER ASSIGNMENT 2 "add_customer.php"-->
 
-		<?php include('errors.php'); ?>
+		<?php //include('errors.php'); ?> <!--WILL USE LATER-->
 
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder=" Client Name" name="client_name" maxlength="50" required>

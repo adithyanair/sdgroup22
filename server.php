@@ -6,7 +6,7 @@
 	$password = "";
 
 	// connect to database
-	$db = mysqli_connect('34.69.96.56', 'root', '1234', 'post_office_db');
+	$db = mysqli_connect('ip', 'root', 'pw', 'db');
 
 	// REGISTER USER
 	if (isset($_POST['reg_user'])) {
@@ -20,7 +20,7 @@
 
 
         //make sure the username is not taken
-		$user_check_query = "SELECT * FROM employee WHERE username='$username' LIMIT 1";
+		$user_check_query = "SELECT * FROM user WHERE username='$username' LIMIT 1";
 		$result = mysqli_query($db, $user_check_query);
 		$user = mysqli_fetch_assoc($result);
 		
@@ -33,7 +33,7 @@
 		// register user if there are no errors in the form
 		if (count($errors) == 0) {
 			$password = md5($password);//encrypt the password before saving in the database
-			$query = "INSERT INTO employee ( username, e_password) 
+			$query = "INSERT INTO user ( username, e_password) 
 						VALUES('$username', '$password')";
 			mysqli_query($db, $query);
 
@@ -59,7 +59,7 @@
 
 		if (count($errors) == 0) {
 			$password = md5($password);
-			$query = "SELECT * FROM employee WHERE username='$username' AND e_password='$password'";
+			$query = "SELECT * FROM user WHERE username='$username' AND e_password='$password'";
 			$results = mysqli_query($db, $query);
 
 			if (mysqli_num_rows($results) == 1) {

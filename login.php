@@ -17,10 +17,10 @@
 		<?php //include('errors.php'); ?>  <!---Will be connected later--->
 
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Username" name="username">
+			<input type="text" class="form-control" placeholder="Username" name="username" required>
 		</div>
 		<div class="input-group">
-			<input type="password" class="form-control" placeholder="Password" name="password">
+			<input type="password" class="form-control" placeholder="Password" name="password" required>
 		</div>
 		<div class="input-group">
 			<button type="submit" class="form-control submit" name="login_user">Login</button>
