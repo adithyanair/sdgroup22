@@ -1,4 +1,4 @@
-# sdgroup22
+# COSC4353 - Project for Group 22
 
 Group Members: Adithya Nair, Shatavari Shinde, Tyler Hu. 
 
