@@ -4,6 +4,8 @@
 	// variable declaration
 	$username = "";
 	$password = "";
+	$testuser = "name";
+	$testpass = "pass";
 
 	// connect to database
 	$db = mysqli_connect('ip', 'root', 'pw', 'db');
@@ -56,7 +58,6 @@
 		if (empty($password)) {
 			array_push($errors, "Password is required");
 		}
-
 		if (count($errors) == 0) {
 			$password = md5($password);
 			$query = "SELECT * FROM user WHERE username='$username' AND e_password='$password'";
@@ -72,21 +73,32 @@
 		}
 	}*/
 
-	$ID = "admin";
-	$pass = "123456";
-
-if (isset($_POST["ID"]) && isset($_POST["pass"])) { 
-
-    if ($_POST["ID"] === $anvandarID && $_POST["pass"] === $pass) { 
-    
-    $_SESSION["inloggedin"] = true; 
-
-    header("Location: index.php"); 
-    exit; 
-    } 
-        // Wrong login - message
-        else {$wrong = "Bad ID and password, the system could not log you in";} 
-}
+	
+	// (B) HANDLE LOGIN
+if (isset($_POST['username']) && !isset($_SESSION['username'])) {
+	// (B1) USERS & PASSWORDS - SET YOUR OWN !
+	 $users = [
+	  "joe" => "123456",
+	  "jon" => "654321",
+	  "joy" => "987654"
+	];
+   
+	// (B2) CHECK & VERIFY
+	if (isset($users[$_POST['username']])) {
+	  if ($users[$_POST['username']] == $_POST['password']) {
+		$_SESSION['username'] = $_POST['username'];
+	  }
+	}
+   
+	// (B3) FAILED LOGIN FLAG
+	if (!isset($_SESSION['username'])) { $failed = true; }
+  }
+   
+  // (C) REDIRECT USER TO HOME PAGE IF SIGNED IN
+  if (isset($_SESSION['username'])) {
+	header("Location: index.php"); // SET YOUR OWN HOME PAGE!
+	exit();
+  }
 	
 
 ?>

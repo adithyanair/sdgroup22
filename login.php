@@ -1,4 +1,4 @@
-<?php //include('server.php') ?> <!---Will be connected later--->
+<?php include('server.php') ?> <!---Will be connected later--->
 <!DOCTYPE html>
 <html>
 <head>
