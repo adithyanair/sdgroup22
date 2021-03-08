@@ -1,5 +1,5 @@
 <?php 
-/* WILL USE FOR LATER ASSIGNMENTS
+/*WILL USE FOR LATER ASSIGNMENTS
 	session_start(); 
 
 	if (!isset($_SESSION['username'])) {
@@ -13,6 +13,11 @@
 		header("location: login/login.php");
 	}
 */
+session_start();
+if (!isset($_SESSION["inloggning"]) || $_SESSION["inloggning"] !== true) {
+	header("Location: login.php");
+	exit;
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,5 +58,7 @@
 		</form> 		
 	</div>
 		
+	
+
 </body>
 </html>

@@ -46,7 +46,7 @@
 	// ... 
 
 	// LOGIN USER
-	if (isset($_POST['login_user'])) {
+	/*if (isset($_POST['login_user'])) {
 		$username = mysqli_real_escape_string($db, $_POST['username']);
 		$password = mysqli_real_escape_string($db, $_POST['password']);
 
@@ -70,6 +70,23 @@
 				array_push($errors, "Wrong username/password combination");
 			}
 		}
-	}
+	}*/
+
+	$ID = "admin";
+	$pass = "123456";
+
+if (isset($_POST["ID"]) && isset($_POST["pass"])) { 
+
+    if ($_POST["ID"] === $anvandarID && $_POST["pass"] === $pass) { 
+    
+    $_SESSION["inloggedin"] = true; 
+
+    header("Location: index.php"); 
+    exit; 
+    } 
+        // Wrong login - message
+        else {$wrong = "Bad ID and password, the system could not log you in";} 
+}
+	
 
 ?>
