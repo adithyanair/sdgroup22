@@ -8,7 +8,7 @@
 	$testpass = "pass";
 
 	// connect to database
-	$db = mysqli_connect('ip', 'root', 'pw', 'db');
+	//$db = mysqli_connect('ip', 'root', 'pw', 'db');
 
 	// REGISTER USER
 	if (isset($_POST['reg_user'])) {
@@ -91,7 +91,11 @@ if (isset($_POST['username']) && !isset($_SESSION['username'])) {
 	}
    
 	// (B3) FAILED LOGIN FLAG
-	if (!isset($_SESSION['username'])) { $failed = true; }
+	if (!isset($_SESSION['username'])) { 
+	   $failed = true;
+       echo '<script>alert("Wrong username/password combination.")</script>';
+
+	}
   }
    
   // (C) REDIRECT USER TO HOME PAGE IF SIGNED IN
