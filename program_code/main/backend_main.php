@@ -1,17 +1,22 @@
 <?php
 	session_start();
 	
+	$users = [
+		"joe" => "123456",
+		"jon" => "654321",
+		"joy" => "abcdef",
+		"shavie" => "1234" 
+	];	
+
+
+
 	// login module
-	function loginHandler () {
+	function loginHandler (&$users) {
 		// init return value
 		$failed = false;
 		if (isset($_POST['username']) && !isset($_SESSION['username'])) {
 			// array of mock hardcoded data, WILL DELETE FOR LATER ASSIGNMENTS
-			$users = [
-			  "joe" => "123456",
-			  "jon" => "654321",
-			  "joy" => "abcdef"
-			];
+					
 			// checks and verifies posted data from login page
 			if (isset($users[$_POST['username']])) {
 			  if ($users[$_POST['username']] == $_POST['password']) {
@@ -23,19 +28,17 @@
 			   $failed = true;
 			   echo '<script>alert("Wrong username/password combination.")</script>';
 			}
+
 		}
 		return $failed;
 	}
-	
-	//hi 
-
 	//connect to database, WILL COMPLETE FOR LATER ASSIGNMENTS
 	//$db = mysqli_connect('ip', 'root', 'pw', 'db');
 	
 	// logic for login module 
 	if (isset($_POST['login_user'])) {
 		// call login handler function
-		loginHandler();
+		loginHandler($users);
 		// redirect user to main menu if login success
 		if (isset($_SESSION['username'])) {
 			header("Location: index.php");
@@ -44,6 +47,26 @@
 	}
 	
 	
+	//REGISTER USER FOR ASSIGNMENT 2
+	
+	function register_handler(&$users){
+
+		if (isset($_POST['register_user']) && isset($_POST['register_password']))
+		{
+			$register_user = $_POST['register_user'];
+			$register_password = $_POST['register_password'];
+			array_push($users, $register_user, $register_password);
+			return true;
+		}
+
+		return false;
+	}
+
+	if (isset($_POST['reg_user'])) {
+		// call login handler function
+		register_handler($users);
+	}
+
     /*
 	// REGISTER USER
 	if (isset($_POST['reg_user'])) {
@@ -51,21 +74,11 @@
 		$username = mysqli_real_escape_string($db, $_POST['username']);
 		$password = mysqli_real_escape_string($db, $_POST['password']);
 
-		// form validation: ensure that the form is correctly filled
-		if (empty($username)) { array_push($errors, "Username is required"); }
-		if (empty($password)) { array_push($errors, "Password is required"); }
-
 
         //make sure the username is not taken
 		$user_check_query = "SELECT * FROM user WHERE username='$username' LIMIT 1";
 		$result = mysqli_query($db, $user_check_query);
 		$user = mysqli_fetch_assoc($result);
-		
-		if ($user) { // if user exists
-		  if ($user['username'] === $username) {
-			array_push($errors, "Username already exists");
-		  }
-		}
 
 		// register user if there are no errors in the form
 		if (count($errors) == 0) {
