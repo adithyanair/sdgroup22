@@ -22,7 +22,7 @@
     </testsuites>
     <filter>
         <whitelist >
-            <directory suffix=".php">./test_code/main</directory>
+            <directory suffix=".php">./program_code/main</directory>
         </whitelist>
     </filter>
 </phpunit>
