@@ -1,13 +1,48 @@
-<?php 
+<?php
 	session_start();
-
-	// variable declaration
-	$username = "";
-	$password = "";
-
-	// connect to database
-	$db = mysqli_connect('ip', 'root', 'pw', 'db');
-
+	
+	// login module
+	function loginHandler () {
+		// init return value
+		$failed = false;
+		if (isset($_POST['username']) && !isset($_SESSION['username'])) {
+			// array of mock hardcoded data, WILL DELETE FOR LATER ASSIGNMENTS
+			$users = [
+			  "joe" => "123456",
+			  "jon" => "654321",
+			  "joy" => "abcdef"
+			];
+			// checks and verifies posted data from login page
+			if (isset($users[$_POST['username']])) {
+			  if ($users[$_POST['username']] == $_POST['password']) {
+				$_SESSION['username'] = $_POST['username'];
+			  }
+			}
+			// sets the failed login flag
+			if (!isset($_SESSION['username'])) { 
+			   $failed = true;
+			   echo '<script>alert("Wrong username/password combination.")</script>';
+			}
+		}
+		return $failed;
+	}
+	
+	//connect to database, WILL COMPLETE FOR LATER ASSIGNMENTS
+	//$db = mysqli_connect('ip', 'root', 'pw', 'db');
+	
+	// logic for login module 
+	if (isset($_POST['login_user'])) {
+		// call login handler function
+		loginHandler();
+		// redirect user to main menu if login success
+		if (isset($_SESSION['username'])) {
+			header("Location: index.php");
+			exit();
+		}
+	}
+	
+	
+    /*
 	// REGISTER USER
 	if (isset($_POST['reg_user'])) {
 		// receive all input values from the form
@@ -42,10 +77,10 @@
 			header('location: index.php');
 		}
 	}
-
-	// ... 
-
-	// LOGIN USER
+	*/
+	
+	// OLD CODE FOR REFERENCE - LOGIN USER
+	/*
 	if (isset($_POST['login_user'])) {
 		$username = mysqli_real_escape_string($db, $_POST['username']);
 		$password = mysqli_real_escape_string($db, $_POST['password']);
@@ -70,6 +105,5 @@
 				array_push($errors, "Wrong username/password combination");
 			}
 		}
-	}
-
+	*/
 ?>
