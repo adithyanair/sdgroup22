@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./vendor/autoload.php" colors="true">
+
+    <!--
+    <php>
+        <ini name="xdebug.mode" value="coverage" />
+        <env name="XDEBUG_MODE" value="coverage" />
+    </php>
+    -->
+
+    <php>
+        <ini name="session.use_cookies" value="0" />
+        <ini name="session.use_only_cookies" value="0" />
+        <ini name="session.use_trans_sid" value="0" />
+        <ini name="session.cache_limiter" value="" />
+    </php>
+
+    <testsuites>
+        <testsuite name="Test Suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist >
+            <directory suffix=".php">./test_code/main</directory>
+        </whitelist>
+    </filter>
+</phpunit>
