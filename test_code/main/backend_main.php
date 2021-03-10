@@ -33,7 +33,7 @@
 	// logic for login module 
 	if (isset($_POST['login_user'])) {
 		// call login handler function
-		$login_failed = loginHandler();
+		loginHandler();
 		// redirect user to main menu if login success
 		if (isset($_SESSION['username'])) {
 			header("Location: index.php");

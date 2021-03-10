@@ -1,4 +1,4 @@
-<?php include('server.php') ?>
+<?php include('backend_main.php') ?>
 
 <!DOCTYPE html>
 <html>
