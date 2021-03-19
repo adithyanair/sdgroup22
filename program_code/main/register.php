@@ -1,4 +1,4 @@
-<?php include('backend_main.php') ?>
+<?php include 'backend_main.php'; ?>
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +12,7 @@
 			<h2>REGISTER A NEW ACCOUNT</h2>
 		</div>
 		
-		<form method="post" action="../user_info/update_profile.php">
+		<form method="post" action="register.php">
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Enter desired username" name="register_user" required>
 				

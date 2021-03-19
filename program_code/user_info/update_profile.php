@@ -1,4 +1,5 @@
-<?php include('backend_user_info.php') ?>
+<?php include '../main/backend_main.php';
+      include 'backend_user_info.php'; ?>
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,7 @@
 			<h1>Setup or Update Your Profile</h1>
 		</div>
 
-		<form method="post" action="../main/index.php"> <!--WILL BE USED AFTER ASSIGNMENT 2 "add_customer.php"-->
+		<form method="post" action="update_profile.php">
 
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder=" Client Name" name="client_name" maxlength="50" required>

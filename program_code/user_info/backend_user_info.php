@@ -1,6 +1,4 @@
 <?php
-    session_start();
-
     //Array of handcoded User Information.
     $user_info = array(
         "joe" => array
@@ -26,37 +24,58 @@
             "city" => "Dallas",
             "state" => "TX" 
         ),
-        "Shavie" => array(
+        "shavie" => array(
             "client_name" => "Shavie Shinde",
             "client_add1" => "7891 House street",
             "client_add2" => "N/A",
             "city" => "Baytown",
             "state" => "TX" 
         )
-        );
+    );
 
-        //user info function
-        function UserInfoHandler (&$userinfo){
-            if(isset($_POST['client_name']) && isset($_POST['client_add1'])
-            && isset($_POST['client_add2']) && isset($_POST['client_city']) && isset($_POST['client_state']))
-            {
-                $client_name = $_POST['client_name'];
-                $client_add1 = $_POST['client_add1'];
-                $client_add2 = $_POST['client_add2'];
-                $client_city = $_POST['client_city'];
-                $client_state = $_POST['client_state'];
-                //Push new clients to the user_info array.
-                array_push($user_info, $client_name, $client_add1, $client_add2, 
-                            $client_city, $client_state);
-
-                //for the testing
-                return true;
-            }
-
-            return false;
+    //user info function
+    function UserInfoHandler (&$userinfo){
+        //setting vars
+        $failed = true;
+        $username = $_SESSION['username'];
+        $client_name = $_POST['client_name'];
+        $client_add1 = $_POST['client_add1'];
+        $client_add2 = $_POST['client_add2'];
+        $client_city = $_POST['city'];
+        $client_state = $_POST['state'];
+        // updating data for existing user
+        if (array_key_exists($username, $userinfo)) {
+            //notifies user of register failure
+            $userinfo[$username]["client_name"] = $client_name;
+            $userinfo[$username]["client_add1"] = $client_add1;
+            $userinfo[$username]["client_add2"] = $client_add2;
+            $userinfo[$username]["city"] = $client_city;
+            $userinfo[$username]["state"] = $client_state;
+            echo '<script>alert("Your user information has been updated."); 
+                            location = "../main/index.php"; </script>';
+            $failed = false;
         }
-
-        if (isset($_POST['submit'])) {
-            // call login handler function
-            UserInfoHandler($user_info);
+        // push new clients to the user_info array.
+        else {
+            $new_userinfo = array(
+                "client_name" => $client_name,
+                "client_add1" => $client_add1,
+                "client_add2" => $client_add2,
+                "city" => $client_city,
+                "state" => $client_state
+            ); 
+            //add data into existing user_info array
+            $userinfo[$username] = $new_userinfo;
+            echo '<script>alert("Your user profile has been created."); 
+                            location = "../main/index.php"; </script>';            
+            $failed = false;
         }
+    return $failed;
+    }
+
+    if (isset($_POST['submit'])) {
+        // call login handler function
+        UserInfoHandler($user_info);
+    }
+
+?>
