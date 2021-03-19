@@ -22,7 +22,7 @@ class RegisterTest extends TestCase
     }
 
     //tests login module
-    public function testLogin()
+    public function testRegister()
     {
         require_once 'program_code/main/backend_main.php';
         // tests login: if user can register, register_handler will return false
