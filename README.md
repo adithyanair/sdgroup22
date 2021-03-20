@@ -1,9 +1,16 @@
 # COSC4353-20300 Spring 2021 - Project for Group 22
 
-Group Members: Adithya Nair, Shatavari Shinde, Tyler Hu. 
+**Group Members:** Adithya Nair, Shatavari Shinde, Tyler Hu. 
 
-User_Info Folder contains the client profile management form.
+**Code_coverage_reports** folder contains HTML reports of the backend code coverage.
 
-Fuel_Form Folder contains the fuel quote form with the appropriate fields and validations. Pricing Module will be implemented in later assignments.
+The project source code is located in the **program_code** folder.
+**Back_end** folder contains all the backend files.
+**Fuel_Form** folder contains the fuel quote form. This is currently filled in with hardcoded examples.
+**Fuel_History** folder contains the fuel quote history table. This is currently filled in with hardcoded examples.
+**Main** folder contains the main logical flow pages such as login, register, index. This is currently filled in with hardcoded examples.
+**User_Info** folder contains the client profile management form. This is currently filled in with hardcoded examples.
 
-Fuel_History Folder contains the fuel quote history table. This will be filled in as we implement the database to the webpage.
+**Tests** folder contains the PHPunit tests for the backend.
+
+**Vendor** contains all of the Composer installed third-party packages.
