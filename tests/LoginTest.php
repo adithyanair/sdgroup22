@@ -24,7 +24,7 @@ class LoginTest extends TestCase
     //tests login module
     public function testLogin()
     {
-        require_once 'program_code/main/backend_main.php';
+        require_once 'program_code/back_end/backend_main.php';
         // tests login: if user can login, loginHandler will return false
         $result = loginHandler($users);
         $this->assertEquals(false, $result);

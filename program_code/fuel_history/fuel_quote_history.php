@@ -1,5 +1,5 @@
-<?php include 'backend_fuel_quote_history.php';
-      include '../main/backend_main.php'; ?>
+<?php include '../back_end/backend_fuel_quote_history.php';
+      include '../back_end/backend_main.php'; ?>
 
 <!DOCTYPE html>
 <html>

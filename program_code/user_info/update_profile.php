@@ -1,5 +1,5 @@
-<?php include '../main/backend_main.php';
-      include 'backend_user_info.php'; ?>
+<?php include '../back_end/backend_main.php';
+      include '../back_end/backend_user_info.php'; ?>
 
 <!DOCTYPE html>
 <html>

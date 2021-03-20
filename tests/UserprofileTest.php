@@ -57,7 +57,7 @@ class UserprofileTest extends TestCase
     //tests user profile module for existing user
     public function testUserProfile_ExistingUser()
     {
-        require_once 'program_code/user_info/backend_user_info.php';
+        require_once 'program_code/back_end/backend_user_info.php';
 
         $_SESSION['username'] = 'joe';
 
@@ -70,7 +70,7 @@ class UserprofileTest extends TestCase
     //tests user profile module for new user
     public function testUserProfile_NewUser()
     {
-        require_once 'program_code/user_info/backend_user_info.php';
+        require_once 'program_code/back_end/backend_user_info.php';
         // tests user profile management: if user exists, UserInfoHandler will return 1. If user is new, UserInfoHandler will return 2
         $result = UserInfoHandler($user_info);
 
@@ -80,7 +80,7 @@ class UserprofileTest extends TestCase
     //tests form field validator
     public function testInputValidator_true()
     {
-        require_once 'program_code/user_info/backend_user_info.php';
+        require_once 'program_code/back_end/backend_user_info.php';
         // tests form field validator: if all valid, inputValidator will return true.
         $result = inputValidator();
 
@@ -90,7 +90,7 @@ class UserprofileTest extends TestCase
     //tests form field validator
     public function testInputValidator_false()
     {
-        require_once 'program_code/user_info/backend_user_info.php';
+        require_once 'program_code/back_end/backend_user_info.php';
 
         $_POST['client_add2'] = "10000000001000000000100000000010000000001000000000100000000010000000001000000000100000000010000000001";
 

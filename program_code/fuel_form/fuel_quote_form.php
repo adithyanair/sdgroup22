@@ -1,4 +1,6 @@
-<?php include('backend_fuel_quote_form.php') ?>
+<?php include '../back_end/backend_fuel_quote_form.php';
+      include '../back_end/backend_main.php';
+      include '../back_end/backend_user_info.php'; ?>
 
 <!DOCTYPE html>
 
@@ -13,7 +15,7 @@
 	</div>
 
     <body>
-        <form method="post" action="../main/index.php" >
+        <form method="post" action="fuel_quote_form.php" >
         	<input type="number" step="any" class="form-control" placeholder="Number of Gallons Requested" name="gallon_req" min="0" onkeypress="return event.charCode != 45" required><br><br>
 			
 			<!---this will be pulled later from DATABASE--->
@@ -25,7 +27,7 @@
 
             <input type="text" class="form-control" placeholder="Total Amount Due" name="total" readonly><br><br>
 
-        	<input type="submit" class="form-control submit" name="fuelform" value="Submit Form">
+        	<input type="submit" class="form-control submit" name="fuelform" value="Submit Quote">
 		
 			<a href='../main/index.php' style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a>
 			

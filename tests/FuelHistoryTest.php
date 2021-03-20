@@ -92,7 +92,7 @@ class FuelHistoryTest extends TestCase
     //tests login module
     public function testFuelHistory()
     {
-        require_once 'program_code/fuel_history/backend_fuel_quote_history.php';
+        require_once 'program_code/back_end/backend_fuel_quote_history.php';
         // tests fuel history: if table is successfully created, assert true
         $result = tableBuilder($fuel_history);
         $this->assertNotNull($result);
