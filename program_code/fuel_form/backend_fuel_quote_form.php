@@ -4,33 +4,32 @@
     $fuel_form = array(
         "joe" => array
         (
-            "gallon_req" => "Joe Wilson",
-            "client_add1" => "1234 Home street",
-            "del_date" => "03/07/2021",
-            "pricing_mod" => "N/A",
-            "total" => "N/A" 
+            "gallon_req" => "10",
+            "client_add1" => "1234 Home street, Houston, TX, 77036",
+            "pricing_mod" => "2",
+            "total" => "20" 
         ),
         "jon" => array 
         (
-            "gallon_req" => "Jon Smith",
-            "client_add1" => "4321 House street",
+            "gallon_req" => "15",
+            "client_add1" => "4321 House street, Austin, TX, 71081",
             "del_date" => "03/15/2021",
-            "pricing_mod" => "N/A",
-            "total" => "N/A" 
+            "pricing_mod" => "3",
+            "total" => "45" 
         ),
         "joy" => array(
-            "gallon_req" => "Joy Swift",
-            "client_add1" => "558 Ghar street",
+            "gallon_req" => "30",
+            "client_add1" => "558 Ghar street, Dallas, TX, 87042",
             "del_date" => "03/08/2021",
-            "pricing_mod" => "N/A",
-            "total" => "N/A" 
+            "pricing_mod" => "1",
+            "total" => "30" 
         ),
-        "Shavie" => array(
-            "gallon_req" => "Shavie Shinde",
-            "client_add1" => "7891 House street",
+        "shavie" => array(
+            "gallon_req" => "7",
+            "client_add1" => "7891 House street, Baytown, TX, 77093",
             "del_date" => "03/12/2021",
-            "pricing_mod" => "N/A",
-            "total" => "N/A" 
+            "pricing_mod" => "5",
+            "total" => "35" 
         )
         );
 

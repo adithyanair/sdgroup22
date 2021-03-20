@@ -1,64 +1,122 @@
 <?php
-session_start();
-
-$fuel_history = array(
-    "one" => array
-    (
-        "client_name" => "Joe Wilson",
-        "gallon_req" => "Joe Wilson",
-        "client_add1" => "1234 Home street",
-        "del_date" => "03/07/2021",
-        "pricing_mod" => "N/A",
-        "total" => "N/A" 
-    ),
-    "two" => array 
-    (
-        "client_name" => "Jon Smith",
-        "gallon_req" => "Jon Smith",
-        "client_add1" => "4321 House street",
-        "del_date" => "03/15/2021",
-        "pricing_mod" => "N/A",
-        "total" => "N/A" 
-    ),
-    "three" => array(
-        "client_name" => "Joy Swift",
-        "gallon_req" => "Joy Swift",
-        "client_add1" => "558 Ghar street",
-        "del_date" => "03/08/2021",
-        "pricing_mod" => "N/A",
-        "total" => "N/A" 
-    ),
-    "four" => array(
-        "client_name" => "Shavie Shinde",
-        "gallon_req" => "Shavie Shinde",
-        "client_add1" => "7891 House street",
-        "del_date" => "03/12/2021",
-        "pricing_mod" => "N/A",
-        "total" => "N/A" 
-    )
+    //Array of past quotes
+    $fuel_history = array(
+        array(
+            "Client ID" => "joe",
+            "Client Name" => "Joe Wilson",
+            "Delivery Address" => "1234 Home street, Houston, TX, 77036",
+            "Delivery Date" => "03/07/2021",
+            "Gallon(s) Requested" => "10",
+            "Price Per Gallon" => "2",
+            "Total Paid" => "20" 
+        ),
+        array(
+            "Client ID" => "joe",
+            "Client Name" => "Joe Wilson",
+            "Delivery Address" => "1234 Home street, Houston, TX, 77036",
+            "Delivery Date" => "03/11/2021",
+            "Gallon(s) Requested" => "11",
+            "Price Per Gallon" => "2",
+            "Total Paid" => "22" 
+        ),
+        array(
+            "Client ID" => "joe",
+            "Client Name" => "Joe Wilson",
+            "Delivery Address" => "1234 Home street, Houston, TX, 77036",
+            "Delivery Date" => "03/16/2021",
+            "Gallon(s) Requested" => "12",
+            "Price Per Gallon" => "2",
+            "Total Paid" => "24" 
+        ),
+        array(
+            "Client ID" => "jon",
+            "Client Name" => "Jon Smith",
+            "Delivery Address" => "4321 House street, Austin, TX, 71081",
+            "Delivery Date" => "03/15/2021",
+            "Gallon(s) Requested" => "15",
+            "Price Per Gallon" => "3",
+            "Total Paid" => "45" 
+        ),
+        array(
+            "Client ID" => "jon",
+            "Client Name" => "Jon Smith",
+            "Delivery Address" => "4321 House street, Austin, TX, 71081",
+            "Delivery Date" => "03/19/2021",
+            "Gallon(s) Requested" => "20",
+            "Price Per Gallon" => "3",
+            "Total Paid" => "60" 
+        ),
+        array(
+            "Client ID" => "joy",
+            "Client Name" => "Joy Swift",
+            "Delivery Address" => "558 Ghar street, Dallas, TX, 87042",
+            "Delivery Date" => "03/08/2021",
+            "Gallon(s) Requested" => "30",
+            "Price Per Gallon" => "1",
+            "Total Paid" => "30" 
+        ),
+        array(
+            "Client ID" => "shavie",
+            "Client Name" => "Shavie Shinde",
+            "Delivery Address" => "7891 House street, Baytown, TX, 77093",
+            "Delivery Date" => "03/12/2021",
+            "Gallon(s) Requested" => "7",
+            "Price Per Gallon" => "5",
+            "Total Paid" => "35" 
+        ),
+        array(
+            "Client ID" => "shavie",
+            "Client Name" => "Shavie Shinde",
+            "Delivery Address" => "7891 House street, Baytown, TX, 77093",
+            "Delivery Date" => "03/18/2021",
+            "Gallon(s) Requested" => "10",
+            "Price Per Gallon" => "5",
+            "Total Paid" => "50" 
+        )
     );
 
-    function FuelHistFunc (&$fuel_history){
-        if(isset($_POST['client_name']) && isset($_POST['gallon_req']) && isset($_POST['client_add1'])
-        && isset($_POST['del_date']) && isset($_POST['pricing_mod']) && isset($_POST['total']))
-        {
-            $client_name = $_POST['client_name'];
-            $gallon_req = $_POST['gallon_req'];
-            $client_add1 = $_POST['client_add1'];
-            $del_date = $_POST['del_date'];
-            $pricing_mod = $_POST['pricing_mod'];
-            $total = $_POST['total'];
-            array_push($fuel_history, $client_name, $gallon_req, $client_add1, $del_date, 
-                        $pricing_mod, $total);
+    //builds the table for fuel quote history
+    function tableBuilder (&$fuelhistory)
+    {
+        $user = $_SESSION['username'];
+        // starts table
+        $html = '<table style = "width: 90%;
+                                background-color: #f0f0dc;
+                                margin-left: auto;
+                                margin-right: auto;
+                                box-shadow: 5px 10px 18px #000000;">';
+        // builds header row
+        $html .= '<tr>';
+        $html .= '<th>' . htmlspecialchars("Client Name") . '</th>';
+        $html .= '<th>' . htmlspecialchars("Delivery Address") . '</th>';
+        $html .= '<th>' . htmlspecialchars("Delivery Date") . '</th>';
+        $html .= '<th>' . htmlspecialchars("Gallon(s) Requested") . '</th>';
+        $html .= '<th>' . htmlspecialchars("Price Per Gallon") . '</th>';
+        $html .= '<th>' . htmlspecialchars("Total Amount Paid") . '</th>';
+        $html .= '</tr>';
 
-            return true;
+        $dataCounter = 0;
+
+        // builds data rows
+        foreach ($fuelhistory as $key=>$value) {
+            if ($user == $value["Client ID"]) {
+                $html .= '<tr>';
+                foreach (array_slice($value,1) as $key2=>$value2) {
+                    $html .= '<td>' . htmlspecialchars($value2) . '</td>';
+                }
+                $html .= '</tr>';
+                $dataCounter++;
+            }
+        }
+        // validation: error message for brand new users
+        if ($dataCounter == 0) {
+            $html .= '<td>' . htmlspecialchars("No data found! You have not ordered from us yet.") . '</td>';
         }
 
-        return false;
+        // finishes table and return it
+        $html .= '</table>';
+        return $html;
     }
-
-    
-    FuelHistFunc($fuel_history);
 
 
 ?>
