@@ -34,9 +34,9 @@
 	}
 
 	//REGISTER USER
-	function register_handler(&$users){
+	function register_handler($db){
 		// init return value
-		$failed = true;
+		/*$failed = true;
 		if (isset($_POST['register_user']) && isset($_POST['register_password']))
 		{
 			// checks and verifies posted data from register page
@@ -57,22 +57,45 @@
 				              location = "../user_info/update_profile.php"; </script>';
 			}
 		}
-		return $failed;
+		return $failed;*/
+		if (isset($_POST['reg_user'])) {
+			// receive all input values from the form
+			$username = mysqli_real_escape_string($db, $_POST['register_user']);
+			$password = mysqli_real_escape_string($db, $_POST['register_password']);
+	
+	
+			//make sure the username is not taken
+			$user_check_query = "SELECT * FROM user WHERE username='$username' LIMIT 1";
+			$result = mysqli_query($db, $user_check_query);
+			$user = mysqli_fetch_assoc($result);
+	
+			// register user if there are no errors in the form			
+				$password = md5($password);//encrypt the password before saving in the database
+				$query = "INSERT INTO user(username, password)
+							VALUES('$username', '$password')";
+				mysqli_query($db, $query);
+	
+				$_SESSION['username'] = $username;
+				$_SESSION['success'] = "<p> <font color = #bdb6b5> You are now logged in </p>";
+				header('location: index.php');
+			
+		}
+
 	}
 
 	//connect to database, WILL COMPLETE FOR LATER ASSIGNMENTS
-	//$db = mysqli_connect('ip', 'root', 'pw', 'db');
+	$db = mysqli_connect('localhost', 'root', '', 'sduserdb');
 
 	// logic for login module 
-	if (isset($_POST['login_user'])) {
+	/*if (isset($_POST['login_user'])) {
 		// call login handler function
 		loginHandler($users);
-	}
+	}*/
 
 	//logic for register module
 	if (isset($_POST['reg_user'])) {
 		// call register handler function
-		register_handler($users);
+		register_handler($db);
 	}
 
     // FUTURE CODE FOR REFERENCE - LOGIN USER
@@ -101,32 +124,10 @@
 				array_push($errors, "Wrong username/password combination");
 			}
 		}
-	}
+	}*/
 
-	// REGISTER USER
-	if (isset($_POST['reg_user'])) {
-		// receive all input values from the form
-		$username = mysqli_real_escape_string($db, $_POST['username']);
-		$password = mysqli_real_escape_string($db, $_POST['password']);
-
-
-        //make sure the username is not taken
-		$user_check_query = "SELECT * FROM user WHERE username='$username' LIMIT 1";
-		$result = mysqli_query($db, $user_check_query);
-		$user = mysqli_fetch_assoc($result);
-
-		// register user if there are no errors in the form
-		if (count($errors) == 0) {
-			$password = md5($password);//encrypt the password before saving in the database
-			$query = "INSERT INTO user ( username, e_password) 
-						VALUES('$username', '$password')";
-			mysqli_query($db, $query);
-
-			$_SESSION['username'] = $username;
-			$_SESSION['success'] = "<p> <font color = #bdb6b5> You are now logged in </p>";
-			header('location: index.php');
-		}
-	}
-	*/
+	//REGISTER USER
+	
+	
 
 ?>
