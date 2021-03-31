@@ -1,7 +1,6 @@
 <?php
 	session_start();
-	//connect to database, WILL COMPLETE FOR LATER ASSIGNMENTS
-	$db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+	
 
 	//REGISTER USER
 	function register_handler($db){
@@ -28,16 +27,15 @@
 			}
 		}
 		return $failed;*/
-		if (isset($_POST['reg_user'])) {
 			// receive all input values from the form
 			$username = mysqli_real_escape_string($db, $_POST['register_user']);
 			$password = mysqli_real_escape_string($db, $_POST['register_password']);
 	
 	
 			//make sure the username is not taken
-			$user_check_query = "SELECT * FROM user WHERE username='$username' LIMIT 1";
-			$result = mysqli_query($db, $user_check_query);
-			$user = mysqli_fetch_assoc($result);
+			//$user_check_query = "SELECT * FROM user WHERE username='$username' LIMIT 1";
+			//$result = mysqli_query($db, $user_check_query);
+			//$user = mysqli_fetch_assoc($result);
 	
 			// register user if there are no errors in the form			
 				$password = md5($password);//encrypt the password before saving in the database
@@ -46,20 +44,18 @@
 				mysqli_query($db, $query);
 	
 				$_SESSION['username'] = $username;
-				$_SESSION['success'] = "<p> <font color = #bdb6b5> You are now logged in </p>";
-				header('location: index.php');
-			
-		}
-
+				echo '<script>alert("You are now registered. Please fill out your user profile on the next page."); 
+				              location = "../user_info/update_profile.php"; </script>';
 	}
+
+	//connect to database, WILL COMPLETE FOR LATER ASSIGNMENTS
+	$db = mysqli_connect('localhost', 'root', '', 'sduserdb');
 
 	//logic for register module
 	if (isset($_POST['reg_user'])) {
 		// call register handler function
 		register_handler($db);
 	}
-
-	
 
 	// login module
 	function loginHandler ($db) {
@@ -83,34 +79,34 @@
 			}
 		}
 		return $failed;*/
-		if (isset($_POST['login_user'])) {
+
 			$username = mysqli_real_escape_string($db, $_POST['username']);
-			$password = mysqli_real_escape_string($db, $_POST['password']);
-	
-			/*if (empty($username)) {
-				array_push($errors, "Username is required");
-			}
-			if (empty($password)) {
-				array_push($errors, "Password is required");
-			}*/
+			$password = mysqli_real_escape_string($db, $_POST['password']); 
+
 				$password = md5($password);
 				$query = "SELECT * FROM user WHERE username='$username' AND password='$password'";
 				$results = mysqli_query($db, $query);
-	
-				if (mysqli_num_rows($results) == 1) {
+
+
+				$count = mysqli_num_rows($results);
+				if($count == 1)
+				{
 					$_SESSION['username'] = $username;
-					$_SESSION['success'] = "You are now logged in";
-					header('location: index.php');
-				}/*else {
-					array_push($errors, "Wrong username/password combination");
-				}*/
+					//notifies user of login success
+					echo '<script>alert("Login successful."); 
+								location = "index.php"; </script>';
+				}
+				else{
+					//notifies user of login failure
+				echo '<script>alert("Wrong username/password combination.")</script>'; 
+				}
 	}
 
+	
 	// logic for login module 
 	if (isset($_POST['login_user'])) {
 		// call login handler function
 		loginHandler($db);
 	}
-	}
-
+	
 ?>
