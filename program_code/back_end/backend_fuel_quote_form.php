@@ -129,17 +129,20 @@
                 "pricing_mod" => $estimated_price,
                 "total" => $total_price 
             ); 
-            //add data into existing fuel form array
-            $fuel_form[$username] = $new_quote;
-            //alerts user of successful quote submission
-            echo '<script>alert("Your quote has been submitted."); 
-                            location = "../main/index.php"; </script>';  
+
+            if (isset($_POST['submitquote'])) {
+                //add data into existing fuel form array
+                $fuel_form[$username] = $new_quote;
+                //alerts user of successful quote submission
+                echo '<script>alert("Your quote has been submitted."); 
+                              location = "../main/index.php"; </script>';  
+            }
             return true;
         }
         return false;
     }
     // calls function
-    if (isset($_POST['fuelform'])) {
+    if (isset($_POST['getquote']) || isset($_POST['submitquote'])) {
         FuelFormHandler($fuel_form, $user_info);
     }
 ?>

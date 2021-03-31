@@ -1,20 +1,15 @@
 body {
   margin: 0;
   padding: 0;
-  text-align: center;
   background: url(fuelquote.jpg);
   background-size: cover;
   background-attachment: fixed;
   font-family: sans-serif;
 }
 
-form {
-  margin-top: 50px;
-  transition: all 4s ease-in-out;
-}
-
 .header {
   margin-top: 100px;
+  text-align: center;
   color: #050f63;
   transition: all 4s ease-in-out;
 }
@@ -24,6 +19,146 @@ form {
   line-height: 10px;
   text-shadow: 1px 2px 3px #000000;
   letter-spacing: 1px;
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-top: 100px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 1000px) {
+  .container{
+    max-width: 940px;
+  }
+}
+
+.d-flex {
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, .1);
+  border-radius: 0 0 5px 5px;
+  padding: 25px;
+}
+
+form {
+  transition: all 4s ease-in-out;
+}
+.form-control {
+  height: 30px;
+  width: 200px;
+  background: white;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid gray;
+  font-size: 14px;
+  margin-bottom: 16px;
+  box-shadow: 3px 7px 10px #393945;
+}
+
+.inputinfo {
+  flex: 65%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.orderinfo {
+  flex: 40%;
+}
+
+.required {
+  color: red;
+}
+
+label, table {
+  display: block;
+  margin: 15px;
+}
+
+label>span {
+  float: left;
+  width: 35%;
+  margin-top: 5px;
+}
+
+p1 {
+  display: block;
+  color: #000000;
+  margin: 0;
+  padding-top: 5px;
+  padding-left: 190px;
+  text-align: left;
+}
+
+p2 {
+  display: block;
+  color: #050f63;
+  margin: 0;
+  padding-left: 190px;
+  text-align: left;
+}
+
+.orderinfo {
+  margin-top: 10px;
+  height: 440px;
+  padding: 1px;
+  border: 2px solid #dadada;
+  font-size: 16px;
+  font-weight: bold;
+}
+.orderinfo>div {
+  padding: 10px 0; 
+}
+.orderinfo .button {
+  width: 80%;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 30px;
+  margin-bottom: 20px;
+  padding: 1px;
+  border: none;
+  border-radius: 20px;
+  background: #050f63;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 1px 6px 10px #393945;
+  transition-duration: 0.7s;
+}
+.button:hover {
+  cursor: pointer;
+  background: #73f589;
+}
+
+table {
+  margin: 10;
+  padding: 0;
+}
+th {
+  border-bottom: 1px solid #dadada;
+  padding: 15px 0;
+}
+tr>td:nth-child(1) {
+  text-align: left;
+  color: #000000;
+  width: 300px;
+}
+tr>td:nth-child(2) {
+  text-align: right;
+  color: #050f63;
+}
+td {
+  border-bottom: 1px solid #dadada;
+  padding: 10px 1px 10px 0;
+}
+
+/*
+form {
+  margin-top: 50px;
+  transition: all 4s ease-in-out;
 }
 
 .form-control {
