@@ -9,8 +9,8 @@
 	
 	<body>
 		<div class="header">
-			<h1>Welcome to the A.S.T. Fuel Company!</h1>
-			<h2>Please Login below to access our services...</h2>
+			<h1>Welcome to the client portal for the A.S.T. Fuel Company!</h1>
+			<h2>Please login below to access our services...</h2>
 		</div>
 		
 		<form method="post" action="login.php">
