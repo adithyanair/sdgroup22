@@ -70,7 +70,7 @@
 		// init return value
 		$failed = true;
 		// form validation
-		if (isset($_POST['username']) && !isset($_SESSION['username']) && isset($_POST['password'])) {
+		//if (isset($_POST['username']) && !isset($_SESSION['username']) && isset($_POST['password'])) {
 			$username = mysqli_real_escape_string($db, $_POST['username']);
 			$password = mysqli_real_escape_string($db, $_POST['password']); 
 			//encrypts password
@@ -95,7 +95,7 @@
 				//notifies user of login failure
 				echo '<script>alert("Wrong username/password combination.")</script>'; 
 			}
-		}
+		//}
 		return $failed;
 	}
 

@@ -60,6 +60,31 @@
         // init return value
 		$failed = true;
 		// form validation
+        $username = $_SESSION['username'];
+
+        //query to fetch user id
+        $ID_query = "SELECT iduser
+        FROM   user  
+        WHERE  username = '$username' ";
+
+    $result_ID = mysqli_query($db, $ID_query);
+
+    // error checking
+    if (!$result_ID) {
+    echo "Could not successfully run query ($ID_query) from DB: ";
+    exit;
+    }
+    if (mysqli_num_rows($result_ID) == 0) {
+    echo "No rows found, nothing to print so am exiting";
+    exit;
+    }
+
+    //fetches user id from db
+   // $row_fetchID = mysqli_fetch_field($result_ID);
+   // $ID_user = $row_fetchID;
+   $value = $result_ID->fetch_object();
+   $ID_user = $value->iduser;
+
 		if (isset($_POST['client_name']) && isset($_POST['client_add1'])&& 
             isset($_POST['client_add2'])&& isset($_POST['city'])&& isset($_POST['state'])&& isset($_POST['zipcode'])) {
 			$client_name = mysqli_real_escape_string($db, $_POST['client_name']);
@@ -71,15 +96,16 @@
 
             $failed = false; 
             $query = "INSERT INTO user_info(iduser,client_name, client_add1,client_add2,city,state,zipcode)
-                        VALUES ('$client_name', '$client_add1', '$client_add2', '$city', '$state', '$zipcode')";
+                        VALUES ('$ID_user', '$client_name', '$client_add1', '$client_add2', '$city', '$state', '$zipcode')";
             mysqli_query($db,$query); 
 
-            $_SESSION['client_name'] = $client_name;
+            $_SESSION['username'] = $username;
 				echo '<script>alert("Your user information has been updated."); 
 							location = "../main/index.php"; </script>';
 
-            return $failed;
+            
         }
+        return $failed;
         //setting vars
         /*$status = 0;
         $username = $_SESSION['username'];
