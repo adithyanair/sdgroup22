@@ -56,9 +56,32 @@
     }
 
     //user info function
-    function UserInfoHandler (&$userinfo){
+    function UserInfoHandler ($db){
+        // init return value
+		$failed = true;
+		// form validation
+		if (isset($_POST['client_name']) && isset($_POST['client_add1'])&& 
+            isset($_POST['client_add2'])&& isset($_POST['city'])&& isset($_POST['state'])&& isset($_POST['zipcode'])) {
+			$client_name = mysqli_real_escape_string($db, $_POST['client_name']);
+            $client_add1 = mysqli_real_escape_string($db, $_POST['client_add1']);
+            $client_add2 = mysqli_real_escape_string($db, $_POST['client_add2']);
+            $city = mysqli_real_escape_string($db, $_POST['city']);
+            $state = mysqli_real_escape_string($db, $_POST['state']);
+            $zipcode = mysqli_real_escape_string($db, $_POST['zipcode']);
+
+            $failed = false; 
+            $query = "INSERT INTO user_info(iduser,client_name, client_add1,client_add2,city,state,zipcode)
+                        VALUES ('$client_name', '$client_add1', '$client_add2', '$city', '$state', '$zipcode')";
+            mysqli_query($db,$query); 
+
+            $_SESSION['client_name'] = $client_name;
+				echo '<script>alert("Your user information has been updated."); 
+							location = "../main/index.php"; </script>';
+
+            return $failed;
+        }
         //setting vars
-        $status = 0;
+        /*$status = 0;
         $username = $_SESSION['username'];
         //if input form fields are valid
         if (inputValidator()) {
@@ -98,12 +121,16 @@
                 $status = 2;
             }
         }
-        return $status;
-    }
+        return $status;*/
 
+    }
+//connect to database
+$db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+
+    
     if (isset($_POST['submit'])) {
         // call login handler function
-        UserInfoHandler($user_info);
+        UserInfoHandler($db);
     }
 
 ?>

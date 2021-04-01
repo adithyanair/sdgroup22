@@ -75,6 +75,9 @@
         )
     );
 
+    //connect to the database
+    $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+    
     //builds the table for fuel quote history
     function tableBuilder (&$fuelhistory)
     {
@@ -98,7 +101,7 @@
         $dataCounter = 0;
 
         // builds data rows
-        foreach ($fuelhistory as $key=>$value) {
+    foreach ($fuelhistory as $key=>$value) {
             if ($user == $value["Client ID"]) {
                 $html .= '<tr>';
                 foreach (array_slice($value,1) as $key2=>$value2) {
