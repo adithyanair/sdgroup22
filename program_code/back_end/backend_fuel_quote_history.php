@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     //Array of past quotes
     $fuel_history = array(
         array(
@@ -79,9 +81,29 @@
     $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
     
     //builds the table for fuel quote history
-    function tableBuilder (&$fuelhistory)
+    function tableBuilder ($db)
     {
-        $user = $_SESSION['username'];
+        $username = $_SESSION['username'];
+
+        // query to fetch user id
+        $ID_query = "SELECT iduser
+                     FROM   user  
+                     WHERE  username = '$username' ";
+
+        $result_ID = mysqli_query($db, $ID_query);
+        // error checking
+        if (!$result_ID) {
+            echo "Could not successfully run query ($ID_query) from DB: " . mysqli_error();
+            exit;
+        }
+        if (mysqli_num_rows($result_ID) == 0) {
+            echo "No rows found, nothing to print so am exiting";
+            exit;
+        }
+        // fetches user id from db
+        $value = $result_ID->fetch_object();
+        $ID_user = $value->iduser;
+
         // starts table
         $html = '<table style = "width: 90%;
                                 background-color: #f0f0dc;
@@ -99,8 +121,9 @@
 
         $dataCounter = 0;
 
+        /*
         // builds data rows
-    foreach ($fuelhistory as $key=>$value) {
+        foreach ($fuelhistory as $key=>$value) {
             if ($user == $value["Client ID"]) {
                 $html .= '<tr>';
                 foreach (array_slice($value,1) as $key2=>$value2) {
@@ -110,6 +133,8 @@
                 $dataCounter++;
             }
         }
+        */
+
         // validation: error message for brand new users
         if ($dataCounter == 0) {
             $html .= '<td>' . htmlspecialchars("No data found! You have not ordered from us yet.") . '</td>';
@@ -119,6 +144,5 @@
         $html .= '</table>';
         return $html;
     }
-
 
 ?>
