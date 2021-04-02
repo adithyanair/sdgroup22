@@ -1,4 +1,4 @@
-<?php include '../back_end/backend_main.php';
+<?php //include '../back_end/backend_main.php';
       include '../back_end/backend_user_info.php'; ?>
 
 <!DOCTYPE html>
@@ -16,23 +16,23 @@
 		<form method="post" action="update_profile.php">
 
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder=" Client Name" name="client_name" maxlength="50" required>
+				<input type="text" class="form-control" placeholder=" Client Name*" name="client_name" maxlength="50" required>
 			</div>
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder=" Address 1" name="client_add1" maxlength="100" required>
+				<input type="text" class="form-control" placeholder=" Address 1*" name="client_add1" maxlength="100" required>
 			</div>
 			<div class="input-group">
 				<!--- This is optional --->
 				<input type="text" class="form-control" placeholder=" Address 2" name="client_add2" maxlength="100" >
 			</div>
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder=" City" name="city" maxlength="100" required>
+				<input type="text" class="form-control" placeholder=" City*" name="city" maxlength="100" required>
 			</div>
 
 			<div class="input-group">
 				<!-- This will be connected with DB for the list of states -->
 				<select class="state-control" id = "state" placeholder="State" name="state" required> 
-				<option class="form-control" value="" placeholder="State">State</option>
+				<option class="form-control" value="" placeholder="State">State*</option>
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -87,7 +87,7 @@
 			</div>
 
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder=" Zip Code" name="zipcode" minlength="5" maxlength="9" required>
+				<input type="text" class="form-control" placeholder=" Zip Code*" name="zipcode" minlength="5" maxlength="9" required>
 			</div> 
 			
 			<div class="input-group">
