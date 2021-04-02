@@ -79,7 +79,8 @@
     $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
     
     //builds the table for fuel quote history
-    function tableBuilder (&$fuelhistory)
+    //function tableBuilder (&$fuelhistory)
+    function tableBuilder ($db)
     {
         $user = $_SESSION['username'];
         // starts table
@@ -98,6 +99,112 @@
         $html .= '</tr>';
 
         $dataCounter = 0;
+
+        //Query to get data from db 
+        $user = $_SESSION['username'];
+        //getting id from the user table for user_info table
+        $ID2_query = "SELECT iduser
+                      FROM   user
+                      WHERE  username = '$username' ";
+        $result_ID = mysqli_query($db, $ID2_query);
+        //error checking
+        if (!$result_ID) {
+            echo "Could not successfully run query ($ID2_query) from DB:";
+            exit;
+            }
+        if (mysqli_num_rows($result_ID) == 0) {
+            echo "No rows found, nothing to print so am exiting";
+            exit;
+            }
+        $value = $result_ID->fetch_object();
+        $IDuser = $value->iduser;
+
+
+        //getting iduser_info from ID user info for fuelquote table
+        $IDUF_query = "SELECT iduser_info
+                       FROM   user_info
+                       WHERE  iduser = '$ID_user' ";
+        $result_IDUF = mysqli_query($db, $IDUF_query);
+         //error checking
+        if (!$result_IDUF) {
+            echo "Could not successfully run query ($IDUF_query) from DB: ";
+            exit;
+            }
+        if (mysqli_num_rows($result_IDUF) == 0) {
+            echo "No rows found, nothing to print so am exiting";
+            exit;
+            }
+        $value = $result_IDUF->fetch_object();
+        $IDUF = $value->iduser_info;
+
+
+        //Client Name
+        $CN_query = "SELECT client_name
+                     FROM   user_info
+                     WHERE  iduser = '$ID_user' ";
+         $result_CN = mysqli_query($db, $CN_query);
+         if (!$result_CN) {
+             echo "Could not successfully run query ($CN_query) from DB: ";
+             exit;
+             }
+         if (mysqli_num_rows($result_CN) == 0) {
+             echo "No rows found, nothing to print so am exiting";
+             exit;
+             }
+         $value = $result_CN->fetch_object();
+         $client_name = $value->client_name;
+
+
+        //Delivery Address Query
+        $DA_query = "SELECT del_add
+                     FROM   fuel_quote
+                     WHERE  IDUF = '$iduser_info' ";
+         $result_DA = mysqli_query($db, $DA_query);
+         if (!$result_DA) {
+             echo "Could not successfully run query ($DA_query) from DB: ";
+             exit;
+             }
+         if (mysqli_num_rows($result_DA) == 0) {
+             echo "No rows found, nothing to print so am exiting";
+             exit;
+             }
+         $value = $result_DA->fetch_object();
+         $del_add = $value->del_add;
+        
+
+         //Pricing_Mod Query
+         $PM_query = "SELECT pricing_mod
+                      FROM   fuel_quote
+                      WHERE  IDUF = '$iduser_info' ";
+          $result_PM = mysqli_query($db, $PM_query);
+          if (!$result_PM) {
+              echo "Could not successfully run query ($DA_query) from DB: ";
+              exit;
+              }
+          if (mysqli_num_rows($result_PM) == 0) {
+              echo "No rows found, nothing to print so am exiting";
+              exit;
+              }
+          $value = $result_PM->fetch_object();
+          $pricing_mod = $value->pricing_mod;
+        
+          
+          //Total query
+        $total_query = "SELECT total
+                        FROM   fuel_quote
+                        WHERE  IDUF = '$iduser_info' ";
+         $result_total = mysqli_query($db, $total_query);
+         if (!$result_told) {
+             echo "Could not successfully run query ($total_query) from DB: ";
+             exit;
+             }
+         if (mysqli_num_rows($result_total) == 0) {
+             echo "No rows found, nothing to print so am exiting";
+             exit;
+             }
+         $value = $result_total->fetch_object();
+         $total = $value->total;
+
 
         // builds data rows
     foreach ($fuelhistory as $key=>$value) {
