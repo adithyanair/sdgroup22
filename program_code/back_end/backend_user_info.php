@@ -1,40 +1,4 @@
 <?php
-    //Array of handcoded User Information.
-    $user_info = array(
-        "joe" => array(
-            "client_name" => "Joe Wilson",
-            "client_add1" => "1234 Home street",
-            "client_add2" => "N/A",
-            "city" => "Houston",
-            "state" => "TX",
-            "zipcode" => "77036" 
-        ),
-        "jon" => array(
-            "client_name" => "Jon Smith",
-            "client_add1" => "4321 House street",
-            "client_add2" => "N/A",
-            "city" => "Austin",
-            "state" => "TX",
-            "zipcode" => "71081" 
-        ),
-        "joy" => array(
-            "client_name" => "Joy Swift",
-            "client_add1" => "558 Ghar street",
-            "client_add2" => "N/A",
-            "city" => "Dallas",
-            "state" => "TX",
-            "zipcode" => "87042" 
-        ),
-        "shavie" => array(
-            "client_name" => "Shavie Shinde",
-            "client_add1" => "7891 House street",
-            "client_add2" => "N/A",
-            "city" => "Baytown",
-            "state" => "TX",
-            "zipcode" => "77093" 
-        )
-    );
-
     // checks form fill inputs and returns bool
     function inputValidator () {
         $isValid = false;
@@ -55,10 +19,56 @@
         return $isValid;
     }
 
-    //user info function
-    function UserInfoHandler (&$userinfo){
+    // user profile function
+    function UserInfoHandler ($db){
+        // init return value
+		$failed = true;
+        $username = $_SESSION['username'];
+        // if input form fields are valid
+        if (inputValidator()) {
+            // query to fetch user id
+            $ID_query = "SELECT iduser
+            FROM   user  
+            WHERE  username = '$username' ";
+
+            $result_ID = mysqli_query($db, $ID_query);
+            // error checking
+            if (!$result_ID) {
+                echo "Could not successfully run query ($ID_query) from DB.";
+                exit;
+            }
+            if (mysqli_num_rows($result_ID) == 0) {
+                echo "No rows found, nothing to print so am exiting";
+                exit;
+            }
+            // user profile update is successful
+            $failed = false; 
+
+            // fetches user id from db
+            $value = $result_ID->fetch_object();
+            $ID_user = $value->iduser;
+            // $row_fetchID = mysqli_fetch_field($result_ID);
+            // $ID_user = $row_fetchID;
+
+			$client_name = mysqli_real_escape_string($db, $_POST['client_name']);
+            $client_add1 = mysqli_real_escape_string($db, $_POST['client_add1']);
+            $client_add2 = mysqli_real_escape_string($db, $_POST['client_add2']);
+            $city = mysqli_real_escape_string($db, $_POST['city']);
+            $state = mysqli_real_escape_string($db, $_POST['state']);
+            $zipcode = mysqli_real_escape_string($db, $_POST['zipcode']);
+            //
+            $query = "INSERT INTO user_info(iduser, client_name, client_add1, client_add2, city, state, zipcode)
+                        VALUES ('$ID_user', '$client_name', '$client_add1', '$client_add2', '$city', '$state', '$zipcode')";
+            mysqli_query($db,$query); 
+
+            $_SESSION['username'] = $username;
+
+			echo '<script>alert("Your user information has been updated."); 
+						  location = "../main/index.php"; </script>';
+        }
+        return $failed;
         //setting vars
-        $status = 0;
+        /*$status = 0;
         $username = $_SESSION['username'];
         //if input form fields are valid
         if (inputValidator()) {
@@ -98,12 +108,15 @@
                 $status = 2;
             }
         }
-        return $status;
+        return $status;*/
     }
 
+    //connect to database
+    $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+    
     if (isset($_POST['submit'])) {
         // call login handler function
-        UserInfoHandler($user_info);
+        UserInfoHandler($db);
     }
 
 ?>

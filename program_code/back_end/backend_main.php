@@ -1,6 +1,6 @@
-<?php
+<?php	
 	session_start();
-	
+
 	// USER REGISTRATION FUNCTION
 	function registrationHandler($db){
 		// init return value
@@ -21,7 +21,7 @@
 				if ($user['username'] === $username) {
 					$failed = true;
 					//notifies user of registration failure
-					echo '<script>alert("Username already taken.")</script>';
+					echo '<script>alert("Username '.$user['username'].' is already taken. Please try again.")</script>';
 				}
 			}
 			// pushes username/password into database since username does not exist
@@ -36,8 +36,9 @@
 
 				//outputs registration success alert and moves user to update profile page
 				$_SESSION['username'] = $username;
+				$_SESSION['db'] = $db;
 				echo '<script>alert("You are now registered. Please fill out your user profile on the next page."); 
-							location = "../user_info/update_profile.php"; </script>';
+							location = "../main/index.php"; </script>';
 			}
 		}
 		return $failed;
@@ -70,7 +71,7 @@
 		// init return value
 		$failed = true;
 		// form validation
-		if (isset($_POST['username']) && !isset($_SESSION['username']) && isset($_POST['password'])) {
+		if (isset($_POST['username']) && isset($_POST['password'])) {
 			$username = mysqli_real_escape_string($db, $_POST['username']);
 			$password = mysqli_real_escape_string($db, $_POST['password']); 
 			//encrypts password
@@ -85,8 +86,9 @@
 			if ($count == 1) {
 				$failed = false;
 				$_SESSION['username'] = $username;
+				$_SESSION['db'] = $db;
 				//notifies user of login success
-				echo '<script>alert("Login successful."); 
+				echo '<script>alert("Login successful. Welcome '.$username.'!"); 
 							location = "index.php"; </script>';
 			}
 			//else login fails and outputs error message

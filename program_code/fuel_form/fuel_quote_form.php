@@ -1,6 +1,6 @@
 <?php include '../back_end/backend_fuel_quote_form.php';
-      include '../back_end/backend_main.php';
-      include '../back_end/backend_user_info.php'; ?>
+      //include '../back_end/backend_main.php';
+      //include '../back_end/backend_user_info.php'; ?>
 
 <!DOCTYPE html>
 
@@ -63,11 +63,8 @@
                         </label>
                         <label>
                             <span>Delivering to: </span></span>
-                            <p1> Address 1: </p1> <p2>1234 House street </p2><br>
-                            <p1> Address 2: </p1> <p2> N/A </p2><br>
-                            <p1> City: </p1> <p2>Houston </p2><br>
-                            <p1> State: </p1> <p2>TX </p2><br>
-                            <p1> Zip Code: </p1> <p2>77036 </p2><br>
+                            <!-- calls the user's address from the backend -->
+                            <p> <?php echo fetchAddress($db); ?></p>
                         </label>
                     </div>
                     <div class="orderinfo">

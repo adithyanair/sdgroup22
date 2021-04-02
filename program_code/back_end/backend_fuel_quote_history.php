@@ -87,7 +87,6 @@
                                 box-shadow: 5px 10px 18px #000000;">';
         // builds header row
         $html .= '<tr>';
-        $html .= '<th>' . htmlspecialchars("Client Name") . '</th>';
         $html .= '<th>' . htmlspecialchars("Delivery Address") . '</th>';
         $html .= '<th>' . htmlspecialchars("Delivery Date") . '</th>';
         $html .= '<th>' . htmlspecialchars("Gallon(s) Requested") . '</th>';

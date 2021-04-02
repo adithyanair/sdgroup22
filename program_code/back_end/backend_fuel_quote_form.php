@@ -1,71 +1,5 @@
 <?php
-    //Arrays of handcoded User Information.
-    $_SESSION['username'] = "joe";
-
-    $user_info = array(
-        "joe" => array(
-            "client_name" => "Joe Wilson",
-            "client_add1" => "1234 Home street",
-            "client_add2" => "N/A",
-            "city" => "Houston",
-            "state" => "TX",
-            "zipcode" => "77036" 
-        ),
-        "jon" => array(
-            "client_name" => "Jon Smith",
-            "client_add1" => "4321 House street",
-            "client_add2" => "N/A",
-            "city" => "Austin",
-            "state" => "TX",
-            "zipcode" => "71081" 
-        ),
-        "joy" => array(
-            "client_name" => "Joy Swift",
-            "client_add1" => "558 Ghar street",
-            "client_add2" => "N/A",
-            "city" => "Dallas",
-            "state" => "TX",
-            "zipcode" => "87042" 
-        ),
-        "shavie" => array(
-            "client_name" => "Shavie Shinde",
-            "client_add1" => "7891 House street",
-            "client_add2" => "N/A",
-            "city" => "Baytown",
-            "state" => "TX",
-            "zipcode" => "77093" 
-        )
-    );
-    $fuel_form = array(
-        "joe" => array(
-            "gallon_req" => "10",
-            "client_add1" => "1234 Home street, Houston, TX, 77036",
-            "del_date" => "03/07/2021",
-            "pricing_mod" => "2",
-            "total" => "20" 
-        ),
-        "jon" => array(
-            "gallon_req" => "15",
-            "client_add1" => "4321 House street, Austin, TX, 71081",
-            "del_date" => "03/15/2021",
-            "pricing_mod" => "3",
-            "total" => "45" 
-        ),
-        "joy" => array(
-            "gallon_req" => "30",
-            "client_add1" => "558 Ghar street, Dallas, TX, 87042",
-            "del_date" => "03/08/2021",
-            "pricing_mod" => "1",
-            "total" => "30" 
-        ),
-        "shavie" => array(
-            "gallon_req" => "7",
-            "client_add1" => "7891 House street, Baytown, TX, 77093",
-            "del_date" => "03/12/2021",
-            "pricing_mod" => "5",
-            "total" => "35" 
-        )
-    );
+    session_start();
 
     //Pricing Module Class
     class pricing_module_class{
@@ -77,12 +11,58 @@
             //$pricing_mod = $current_price + $margin;
             return $this -> current_price + $this -> margin; 
         }
+        //Total calculator Function 
+        function totalPrice($ppg, $gallon_req)
+        {
+            return $ppg * $gallon_req; 
+        }
     }
 
-    //Total calculator Function 
-    function totalPrice($ppg, $gallon_req)
+    // fetches user's address from the database and returns a string
+    function fetchAddress($db)
     {
-        return $ppg * $gallon_req; 
+        $username = $_SESSION['username'];
+        // query to fetch user id
+        $ID_query = "SELECT iduser
+                     FROM   user  
+                     WHERE  username = '$username' ";
+
+        $result_ID = mysqli_query($db, $ID_query);
+        // error checking
+        if (!$result_ID) {
+            echo "Could not successfully run query ($ID_query) from DB: " . mysqli_error();
+            exit;
+        }
+        if (mysqli_num_rows($result_ID) == 0) {
+            echo "No rows found, nothing to print so am exiting";
+            exit;
+        }
+        // fetches user id from db
+        $value = $result_ID->fetch_object();
+        $ID_user = $value->iduser;
+
+        // query to fetch user profile info
+        $profile_query = "SELECT client_add1, client_add2, city, state, zipcode
+                          FROM   user_info
+                          WHERE  iduser = '$ID_user' ";
+
+        $result_profile = mysqli_query($db, $profile_query);
+        // error checking
+        if (!$result_profile) {
+            echo "Could not successfully run query ($profile_query) from DB: " . mysqli_error();
+            exit;
+        }
+        if (mysqli_num_rows($result_profile) == 0) {
+            echo '<script>alert("Your user information has not been filled out yet. Please setup your user profile."); 
+						  location = "../main/index.php"; </script>';
+        }
+        // fetches user profile info from db
+        $row_fetchProfile = mysqli_fetch_assoc($result_profile);
+
+        // builds the user's whole address to be displayed in quote form
+        $user_add_for_form = $row_fetchProfile["client_add1"]."<br>".$row_fetchProfile["client_add2"]."<br>".$row_fetchProfile["city"].", ".$row_fetchProfile["state"].", ".$row_fetchProfile["zipcode"];
+
+        return $user_add_for_form;
     }
 
     // checks form fill inputs and returns bool
@@ -98,41 +78,71 @@
         return $isValid;
     }
 
-    //Fuel Form Function
-    function FuelFormHandler(&$fuel_form, &$user_info)
+    // fuel form main function
+    function FuelFormHandler($db)
     {
         $username = $_SESSION['username'];
-        if(inputValidator_FuelForm()) {
-            //sets the variable values for a quote
+        if (inputValidator_FuelForm()) {
+            // sets the variable values for a quote
             $num_gallon = $_POST['gallon_req'];
             $date_req = $_POST['del_date'];
-            //fetches user's profile data
-            foreach($user_info as $key => $value) {
-                if ($username == $key) {
-                    $user_data = array();
-                    $user_data = $user_info[$key];
-                }
+
+            // query to fetch user id
+            $ID_query = "SELECT iduser
+                         FROM   user  
+                         WHERE  username = '$username' ";
+
+            $result_ID = mysqli_query($db, $ID_query);
+            // error checking
+            if (!$result_ID) {
+                echo "Could not successfully run query ($ID_query) from DB: " . mysqli_error();
+                exit;
             }
-            //builds the user's whole address as one string
-            $user_add = $user_data["client_add1"].", ".$user_data["client_add2"].", ".$user_data["city"].", ".$user_data["state"].", ".$user_data["zipcode"];
+            if (mysqli_num_rows($result_ID) == 0) {
+                echo "No rows found, nothing to print so am exiting";
+                exit;
+            }
+            // fetches user id from db
+            $value = $result_ID->fetch_object();
+            $ID_user = $value->iduser;
+
+            //query to fetch user profile info
+            $profile_query = "SELECT client_add1, client_add2, city, state, zipcode
+                              FROM   user_info
+                              WHERE  iduser = '$ID_user' ";
+
+            $result_profile = mysqli_query($db, $profile_query);
+            // error checking
+            if (!$result_profile) {
+                echo "Could not successfully run query ($profile_query) from DB: " . mysqli_error();
+                exit;
+            }
+            if (mysqli_num_rows($result_profile) == 0) {
+                echo "No rows found, nothing to print so am exiting";
+                exit;
+            }
+            //fetches user profile info from db
+            $row_fetchProfile = mysqli_fetch_assoc($result_profile);
+
+            //builds the user's whole address as one string for quote history submission
+            $user_add_for_quote = $row_fetchProfile["client_add1"].", ".$row_fetchProfile["client_add2"].", ".$row_fetchProfile["city"].", ".$row_fetchProfile["state"].", ".$row_fetchProfile["zipcode"];
             
             //gets estimated prices from pricing module
             $pricing_mod = new pricing_module_class();
             $estimated_price = $pricing_mod->estimatedPrice();
-            $total_price = totalPrice($estimated_price, $num_gallon);
+            $total_price =  $pricing_mod->totalPrice($estimated_price, $num_gallon);
 
-            //builds new quote
-            $new_quote = array(
-                "gallon_req" => $num_gallon,
-                "client_add1" => $user_add,
-                "del_date" => $date_req,
-                "pricing_mod" => $estimated_price,
-                "total" => $total_price 
-            ); 
-
+            //hhandles quote submission
             if (isset($_POST['submitquote'])) {
-                //add data into existing fuel form array
-                $fuel_form[$username] = $new_quote;
+                //inserts into database
+				$quote_submit_query = "INSERT INTO fuel_quote(del_date, del_add, gallon_req, pricing_mod, total, iduser_info)
+                          	           VALUES('$date_req', '$user_add_for_quote', '$num_gallon', '$estimated_price', '$total_price', '$ID_user')";
+				$result_insert_quote_query = mysqli_query($db, $quote_submit_query);
+                // error checking
+                if (!$result_insert_quote_query) {
+                    echo "Could not successfully run query ($quote_submit_query) from DB.";
+                    //exit;
+                }
                 //alerts user of successful quote submission
                 echo '<script>alert("Your quote has been submitted."); 
                               location = "../main/index.php"; </script>';  
@@ -141,8 +151,11 @@
         }
         return false;
     }
+
+    $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+
     // calls function
     if (isset($_POST['getquote']) || isset($_POST['submitquote'])) {
-        FuelFormHandler($fuel_form, $user_info);
+        FuelFormHandler($db);
     }
 ?>

@@ -84,21 +84,14 @@ label>span {
   margin-top: 5px;
 }
 
-p1 {
-  display: block;
-  color: #000000;
-  margin: 0;
-  padding-top: 5px;
-  padding-left: 190px;
-  text-align: left;
-}
-
-p2 {
+p {
   display: block;
   color: #050f63;
-  margin: 0;
-  padding-left: 190px;
+  padding-top: 3px;
+  padding-left: 185px;
   text-align: left;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .orderinfo {
