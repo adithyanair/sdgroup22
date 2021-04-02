@@ -19,6 +19,7 @@
         return $isValid;
     }
 
+<<<<<<< HEAD
     // user profile function
     function UserInfoHandler ($db){
         // init return value
@@ -50,21 +51,68 @@
             // $row_fetchID = mysqli_fetch_field($result_ID);
             // $ID_user = $row_fetchID;
 
+=======
+    //user info function
+    function UserInfoHandler ($db){
+        // init return value
+		$failed = true;
+		// form validation
+        $username = $_SESSION['username'];
+
+        //query to fetch user id
+        $ID_query = "SELECT iduser
+        FROM   user  
+        WHERE  username = '$username' ";
+
+    $result_ID = mysqli_query($db, $ID_query);
+
+    // error checking
+    if (!$result_ID) {
+    echo "Could not successfully run query ($ID_query) from DB: ";
+    exit;
+    }
+    if (mysqli_num_rows($result_ID) == 0) {
+    echo "No rows found, nothing to print so am exiting";
+    exit;
+    }
+
+    //fetches user id from db
+   // $row_fetchID = mysqli_fetch_field($result_ID);
+   // $ID_user = $row_fetchID;
+   $value = $result_ID->fetch_object();
+   $ID_user = $value->iduser;
+
+		if (isset($_POST['client_name']) && isset($_POST['client_add1'])&& 
+            isset($_POST['client_add2'])&& isset($_POST['city'])&& isset($_POST['state'])&& isset($_POST['zipcode'])) {
+>>>>>>> b75f3ce7eaa48e7fad23d4b9d1ff96c1f522c2cc
 			$client_name = mysqli_real_escape_string($db, $_POST['client_name']);
             $client_add1 = mysqli_real_escape_string($db, $_POST['client_add1']);
             $client_add2 = mysqli_real_escape_string($db, $_POST['client_add2']);
             $city = mysqli_real_escape_string($db, $_POST['city']);
             $state = mysqli_real_escape_string($db, $_POST['state']);
             $zipcode = mysqli_real_escape_string($db, $_POST['zipcode']);
+<<<<<<< HEAD
             //
             $query = "INSERT INTO user_info(iduser, client_name, client_add1, client_add2, city, state, zipcode)
+=======
+
+            $failed = false; 
+            $query = "INSERT INTO user_info(iduser,client_name, client_add1,client_add2,city,state,zipcode)
+>>>>>>> b75f3ce7eaa48e7fad23d4b9d1ff96c1f522c2cc
                         VALUES ('$ID_user', '$client_name', '$client_add1', '$client_add2', '$city', '$state', '$zipcode')";
             mysqli_query($db,$query); 
 
             $_SESSION['username'] = $username;
+<<<<<<< HEAD
 
 			echo '<script>alert("Your user information has been updated."); 
 						  location = "../main/index.php"; </script>';
+=======
+				echo '<script>alert("Your user information has been updated."); 
+							location = "../main/index.php"; </script>';
+
+            
+>>>>>>> b75f3ce7eaa48e7fad23d4b9d1ff96c1f522c2cc
         }
         return $failed;
         //setting vars
@@ -109,10 +157,19 @@
             }
         }
         return $status;*/
-    }
+<<<<<<< HEAD
+=======
 
+>>>>>>> b75f3ce7eaa48e7fad23d4b9d1ff96c1f522c2cc
+    }
+//connect to database
+$db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+
+<<<<<<< HEAD
     //connect to database
     $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+=======
+>>>>>>> b75f3ce7eaa48e7fad23d4b9d1ff96c1f522c2cc
     
     if (isset($_POST['submit'])) {
         // call login handler function
