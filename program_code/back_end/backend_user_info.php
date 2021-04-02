@@ -56,7 +56,7 @@
             $city = mysqli_real_escape_string($db, $_POST['city']);
             $state = mysqli_real_escape_string($db, $_POST['state']);
             $zipcode = mysqli_real_escape_string($db, $_POST['zipcode']);
-            //
+            
             $query = "INSERT INTO user_info(iduser, client_name, client_add1, client_add2, city, state, zipcode)
                         VALUES ('$ID_user', '$client_name', '$client_add1', '$client_add2', '$city', '$state', '$zipcode')";
             mysqli_query($db,$query); 
@@ -67,6 +67,7 @@
 						  location = "../main/index.php"; </script>';
         }
         return $failed;
+        
         //setting vars
         /*$status = 0;
         $username = $_SESSION['username'];
