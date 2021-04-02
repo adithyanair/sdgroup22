@@ -1,5 +1,5 @@
 <?php	
-	session_start();
+	@session_start();
 
 	// USER REGISTRATION FUNCTION
 	function registrationHandler($db){
@@ -27,16 +27,15 @@
 			// pushes username/password into database since username does not exist
 			else {
 				$failed = false;
-				//encrypt the password before saving in the database		
+				// encrypt the password before saving in the database		
 				$password = md5($password);
-				//inserts into database
+				// inserts into database
 				$query = "INSERT INTO user(username, password)
                           	VALUES('$username', '$password')";
 				mysqli_query($db, $query);
 
-				//outputs registration success alert and moves user to update profile page
+				// outputs registration success alert and moves user to update profile page
 				$_SESSION['username'] = $username;
-				$_SESSION['db'] = $db;
 				echo '<script>alert("You are now registered. Please fill out your user profile on the next page."); 
 							location = "../main/index.php"; </script>';
 			}
@@ -46,65 +45,42 @@
 
 	// USER LOGIN FUNCTION
 	function loginHandler ($db) {
-
-		// init return value
-		/*$failed = true;
-		if (isset($_POST['username']) && !isset($_SESSION['username'])) {
-			// checks and verifies posted data from login page
-			if (isset($users[$_POST['username']])) {
-				if ($users[$_POST['username']] == $_POST['password']) {
-					$failed = false;
-					$_SESSION['username'] = $_POST['username'];
-					//notifies user of login success
-					echo '<script>alert("Login successful."); 
-								location = "index.php"; </script>';
-				}
-			}
-			// sets the failed login flag
-			if (!isset($_SESSION['username'])) { 
-				//notifies user of login failure
-				echo '<script>alert("Wrong username/password combination.")</script>';
-			}
-		}
-		return $failed;*/
-
 		// init return value
 		$failed = true;
 		// form validation
 		if (isset($_POST['username']) && isset($_POST['password'])) {
 			$username = mysqli_real_escape_string($db, $_POST['username']);
 			$password = mysqli_real_escape_string($db, $_POST['password']); 
-			//encrypts password
+			// encrypts password
 			$password = md5($password);
-			//builds sql query
+			// builds sql query
 			$query = "SELECT * FROM user WHERE username='$username' AND password='$password'";
 			$results = mysqli_query($db, $query);
-			//counts number of occurences where the username and password combination is found
+			// counts number of occurences where the username and password combination is found
 			$count = mysqli_num_rows($results);
 
-			//if count is 1, login is successful
+			// if count is 1, login is successful
 			if ($count == 1) {
 				$failed = false;
 				$_SESSION['username'] = $username;
-				$_SESSION['db'] = $db;
-				//notifies user of login success
+				// notifies user of login success
 				echo '<script>alert("Login successful. Welcome '.$username.'!"); 
 							location = "index.php"; </script>';
 			}
-			//else login fails and outputs error message
+			// else login fails and outputs error message
 			else {
 				$failed = true;
-				//notifies user of login failure
+				// notifies user of login failure
 				echo '<script>alert("Wrong username/password combination.")</script>'; 
 			}
 		}
 		return $failed;
 	}
 
-	//connects to local database
+	// connects to local database
 	$db = mysqli_connect('localhost', 'root', '', 'sduserdb');
 
-	//logic for registration module
+	// logic for registration module
 	if (isset($_POST['reg_user'])) {
 		// call registration function
 		registrationHandler($db);

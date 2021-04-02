@@ -1,4 +1,4 @@
-<?php include '../back_end/backend_main.php';
+<?php //include '../back_end/backend_main.php';
       include '../back_end/backend_user_info.php'; ?>
 
 <!DOCTYPE html>

@@ -14,7 +14,7 @@
 	</div>
 
   <!-- calls the fuel quote history table from the backend -->
-  <?php echo tableBuilder($db); ?>
+  <?php echo tableBuilder($db, $user); ?>
   
   <p> <a href='../main/index.php' style='color:#ffffff; font-size:17px; letter-spacing:1px; text-decoration:none; text-shadow:4px 4px 4px #000000; position:fixed; top:50px; right:100px;">'>Return to Main Menu</a> </p>
 

@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    @session_start();
 
     //Pricing Module Class
     class pricing_module_class{
@@ -19,11 +19,10 @@
     }
 
     // checks if user profile is complete
-    function isProfileComplete($db)
+    function isProfileComplete($db, $username)
     {
         // init value
         $failed = false;
-        $username = $_SESSION['username'];
         // query to fetch user id
         $ID_query = "SELECT iduser
                      FROM   user  
@@ -31,13 +30,8 @@
 
         $result_ID = mysqli_query($db, $ID_query);
         // error checking
-        if (!$result_ID) {
+        if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
             echo "Could not successfully run query ($ID_query) from DB.";
-            $failed = true;
-            exit;
-        }
-        if (mysqli_num_rows($result_ID) == 0) {
-            echo "No rows found, nothing to print so am exiting";
             $failed = true;
             exit;
         }
@@ -52,11 +46,6 @@
 
         $result_profile = mysqli_query($db, $profile_query);
         // error checking
-        if (!$result_profile) {
-            $failed = true;
-            echo "Could not successfully run query ($profile_query) from DB.";
-            exit;
-        }
         if (mysqli_num_rows($result_profile) == 0) {
             $failed = true;
             echo '<script>alert("Your user information has not been filled out yet. Please setup your user profile."); 
@@ -66,9 +55,8 @@
     }
 
     // fetches user's address from the database and returns a string
-    function fetchAddress($db)
+    function fetchAddress($db, $username)
     {
-        $username = $_SESSION['username'];
         // query to fetch user id
         $ID_query = "SELECT iduser
                      FROM   user  
@@ -76,12 +64,8 @@
 
         $result_ID = mysqli_query($db, $ID_query);
         // error checking
-        if (!$result_ID) {
+        if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
             echo "Could not successfully run query ($ID_query) from DB.";
-            exit;
-        }
-        if (mysqli_num_rows($result_ID) == 0) {
-            echo "No rows found, nothing to print so am exiting";
             exit;
         }
         // fetches user id from db
@@ -94,15 +78,6 @@
                           WHERE  iduser = '$ID_user' ";
 
         $result_profile = mysqli_query($db, $profile_query);
-        // error checking
-        if (!$result_profile) {
-            echo "Could not successfully run query ($profile_query) from DB.";
-            exit;
-        }
-        if (mysqli_num_rows($result_profile) == 0) {
-            echo "No rows found, nothing to print so am exiting";
-            exit;
-        }
         // fetches user profile info from db
         $row_fetchProfile = mysqli_fetch_assoc($result_profile);
 
@@ -126,9 +101,8 @@
     }
 
     // fuel form main function
-    function FuelFormHandler($db)
+    function FuelFormHandler($db, $username)
     {
-        $username = $_SESSION['username'];
         if (inputValidator_FuelForm()) {
             // sets the variable values for a quote
             $num_gallon = $_POST['gallon_req'];
@@ -141,12 +115,8 @@
 
             $result_ID = mysqli_query($db, $ID_query);
             // error checking
-            if (!$result_ID) {
+            if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
                 echo "Could not successfully run query ($ID_query) from DB.";
-                exit;
-            }
-            if (mysqli_num_rows($result_ID) == 0) {
-                echo "No rows found, nothing to print so am exiting";
                 exit;
             }
             // fetches user id from db
@@ -160,30 +130,31 @@
 
             $result_profile = mysqli_query($db, $profile_query);
             // error checking
-            if (!$result_profile) {
+            if (!$result_profile || mysqli_num_rows($result_profile) == 0) {
                 echo "Could not successfully run query ($profile_query) from DB.";
-                exit;
-            }
-            if (mysqli_num_rows($result_profile) == 0) {
-                echo "No rows found, nothing to print so am exiting";
                 exit;
             }
             //fetches user profile info from db
             $row_fetchProfile = mysqli_fetch_assoc($result_profile);
 
             //builds the user's whole address as one string for quote history submission
-            $user_add_for_quote = $row_fetchProfile["client_add1"].", ".$row_fetchProfile["client_add2"].", ".$row_fetchProfile["city"].", ".$row_fetchProfile["state"].", ".$row_fetchProfile["zipcode"];
-            
+            if (is_null($row_fetchProfile["client_add2"]) || empty($row_fetchProfile["client_add2"])) {
+                $user_add_for_quote = $row_fetchProfile["client_add1"].", ".$row_fetchProfile["city"].", ".$row_fetchProfile["state"].", ".$row_fetchProfile["zipcode"];
+            }
+            else {
+                $user_add_for_quote = $row_fetchProfile["client_add1"].", ".$row_fetchProfile["client_add2"].", ".$row_fetchProfile["city"].", ".$row_fetchProfile["state"].", ".$row_fetchProfile["zipcode"];
+            }
+
             //gets estimated prices from pricing module
             $pricing_mod = new pricing_module_class();
             $estimated_price = $pricing_mod->estimatedPrice();
             $total_price =  $pricing_mod->totalPrice($estimated_price, $num_gallon);
 
-            //hhandles quote submission
+            //handles quote submission
             if (isset($_POST['submitquote'])) {
                 //inserts into database
 				$quote_submit_query = "INSERT INTO fuel_quote(del_date, del_add, gallon_req, pricing_mod, total, iduser_info)
-                          	           VALUES('$date_req', '$user_add_for_quote', '$num_gallon', '$estimated_price', '$total_price', '$ID_user')";
+                          	           VALUES ('$date_req', '$user_add_for_quote', '$num_gallon', '$estimated_price', '$total_price', '$ID_user')";
 				$result_insert_quote_query = mysqli_query($db, $quote_submit_query);
                 // error checking
                 if (!$result_insert_quote_query) {
@@ -200,9 +171,10 @@
     }
 
     $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+    $user = $_SESSION['username'];
 
     // calls function
     if (isset($_POST['getquote']) || isset($_POST['submitquote'])) {
-        FuelFormHandler($db);
+        FuelFormHandler($db, $user);
     }
 ?>

@@ -9,93 +9,107 @@
         // sets up test environment
         protected function setUp(): void
         {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
             // CHANGE THESE VARIABLES TO TEST
-            $_SESSION['username'] = 'joe';
-            $_POST['gallon_req'] = "10";
-            $_POST['del_date'] = "03/19/2021";
-
-            $user_info = array(
-                "joe" => array(
-                    "client_name" => "Joe Wilson",
-                    "client_add1" => "1234 Home street",
-                    "client_add2" => "N/A",
-                    "city" => "Houston",
-                    "state" => "TX",
-                    "zipcode" => "77036" 
-                ),
-                "jon" => array(
-                    "client_name" => "Jon Smith",
-                    "client_add1" => "4321 House street",
-                    "client_add2" => "N/A",
-                    "city" => "Austin",
-                    "state" => "TX",
-                    "zipcode" => "71081" 
-                ),
-                "joy" => array(
-                    "client_name" => "Joy Swift",
-                    "client_add1" => "558 Ghar street",
-                    "client_add2" => "N/A",
-                    "city" => "Dallas",
-                    "state" => "TX",
-                    "zipcode" => "87042" 
-                ),
-                "shavie" => array(
-                    "client_name" => "Shavie Shinde",
-                    "client_add1" => "7891 House street",
-                    "client_add2" => "N/A",
-                    "city" => "Baytown",
-                    "state" => "TX",
-                    "zipcode" => "77093" 
-                )
-            );
-
-            $fuel_form = array(
-                "joe" => array(
-                    "gallon_req" => "10",
-                    "client_add1" => "1234 Home street, Houston, TX, 77036",
-                    "del_date" => "03/07/2021",
-                    "pricing_mod" => "2",
-                    "total" => "20" 
-                ),
-                "jon" => array(
-                    "gallon_req" => "15",
-                    "client_add1" => "4321 House street, Austin, TX, 71081",
-                    "del_date" => "03/15/2021",
-                    "pricing_mod" => "3",
-                    "total" => "45" 
-                ),
-                "joy" => array(
-                    "gallon_req" => "30",
-                    "client_add1" => "558 Ghar street, Dallas, TX, 87042",
-                    "del_date" => "03/08/2021",
-                    "pricing_mod" => "1",
-                    "total" => "30" 
-                ),
-                "shavie" => array(
-                    "gallon_req" => "7",
-                    "client_add1" => "7891 House street, Baytown, TX, 77093",
-                    "del_date" => "03/12/2021",
-                    "pricing_mod" => "5",
-                    "total" => "35" 
-                )
-            );
+            $_SESSION['username'] = 'tyler';
         }
 
-        //tests fuel quote form module
-        public function testFuelQuoteForm()
+        // tests fuel quote form module success
+        public function testFuelQuoteFormSuccess()
         {
             require_once 'program_code/back_end/backend_fuel_quote_form.php';
 
+            // CHANGE THESE VARIABLES TO TEST
+            $user = $_SESSION['username'];
+            $_POST['gallon_req'] = "10";
+            $_POST['submitquote'] = true;
+            $_POST['del_date'] = "2021-04-02";
+            // connects to local database
+	        $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
+
             // if quote is submitted successfully, assert true
-            $result = FuelFormHandler($fuel_form, $user_info);
+            $result = FuelFormHandler($db_test, $user);
 
             $this->assertEquals(true, $result);
         }
 
-        //tests form field validator
+        // tests fuel quote form module failure
+        public function testFuelQuoteFormFailure()
+        {
+            require_once 'program_code/back_end/backend_fuel_quote_form.php';
+
+            // CHANGE THESE VARIABLES TO TEST
+            $_POST['gallon_req'] = "-1";
+            $_POST['submitquote'] = true;
+            $user = $_SESSION['username'];
+            // connects to local database
+	        $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
+
+            // if quote is submitted unsuccessfully, assert false
+            $result = FuelFormHandler($db_test, $user);
+
+            $this->assertEquals(false, $result);
+        }
+
+        // tests isProfileComplete function success
+        public function testIsProfileCompleteSuccess()
+        {
+            require_once 'program_code/back_end/backend_fuel_quote_form.php';
+
+            // CHANGE THESE VARIABLES TO TEST
+            $user = $_SESSION['username'];
+            // connects to local database
+            $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
+
+            // if profile is complete, assert false
+            $result = isProfileComplete($db_test, $user);
+
+            $this->assertEquals(false, $result);
+        }
+
+        // tests isProfileComplete function failure
+        public function testIsProfileCompleteFailure()
+        {
+            require_once 'program_code/back_end/backend_fuel_quote_form.php';
+
+            // CHANGE THESE VARIABLES TO TEST
+            $_SESSION['username'] = 'john';
+            $user = $_SESSION['username'];
+            // connects to local database
+            $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
+
+            // if profile is incomplete, assert true
+            $result = isProfileComplete($db_test, $user);
+
+            $this->assertEquals(true, $result);
+        }
+
+        // tests fetch address function success
+        public function testFetchAddress()
+        {
+            require_once 'program_code/back_end/backend_fuel_quote_form.php';
+
+            // CHANGE THESE VARIABLES TO TEST
+            $user = $_SESSION['username'];
+            // connects to local database
+            $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
+
+            // if profile is complete, assert false
+            $result = fetchAddress($db_test, $user);
+
+            $this->assertNotNull($result);
+        }
+
+        // tests form field validator
         public function testInputValidatorFuelForm_true()
         {
             require_once 'program_code/back_end/backend_fuel_quote_form.php';
+
+            // CHANGE THESE VARIABLES TO TEST
+            $_POST['gallon_req'] = "10";
+
             // tests form field validator: if all valid, inputValidator will return true.
             $result = inputValidator_FuelForm();
 
@@ -107,6 +121,7 @@
         {
             require_once 'program_code/back_end/backend_fuel_quote_form.php';
 
+            // CHANGE THESE VARIABLES TO TEST
             $_POST['gallon_req'] = "-1";
 
             // tests form field validator: if a field is not valid, inputValidator will return false.

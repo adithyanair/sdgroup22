@@ -1,14 +1,13 @@
 <?php
-    session_start();
+    @session_start();
 
     //connect to the database
     $db = mysqli_connect('localhost', 'root', '', 'sduserdb');
+    $user = $_SESSION['username'];
     
     //builds the table for fuel quote history
-    function tableBuilder ($db)
+    function tableBuilder ($db, $username)
     {
-        $username = $_SESSION['username'];
-
         // query to fetch user id
         $ID_query = "SELECT iduser
                      FROM   user  
@@ -16,12 +15,8 @@
 
         $result_ID = mysqli_query($db, $ID_query);
         // error checking
-        if (!$result_ID) {
+        if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
             echo "Could not successfully run query ($ID_query) from DB.";
-            exit;
-        }
-        if (mysqli_num_rows($result_ID) == 0) {
-            echo "No rows found, nothing to print so am exiting";
             exit;
         }
         // fetches user id from db

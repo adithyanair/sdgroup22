@@ -6,28 +6,36 @@
 
     class LoginTest extends TestCase
     {
-        // sets up test environment
-        protected function setUp(): void
-        {
-            // CHANGE THESE VARIABLES TO TEST
-            $_POST['username'] = 'jon';
-            $_POST['password'] = '654321';
-
-            $users = [
-                "joe" => "123456",
-                "jon" => "654321",
-                "joy" => "abcdef",
-                "shavie" => "1234" 
-            ];	
-        }
-
-        //tests login module
-        public function testLogin()
+        //tests login module for login success
+        public function testLoginSuccess()
         {
             require_once 'program_code/back_end/backend_main.php';
+
+            // CHANGE THESE VARIABLES TO TEST
+            $_POST['username'] = 'tyler';
+            $_POST['password'] = '1111';
+            //connects to local database
+	        $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
+
             // tests login: if user can login, loginHandler will return false
-            $result = loginHandler($users);
+            $result = loginHandler($db_test);
             $this->assertEquals(false, $result);
+        }
+
+        //tests login module for login failure
+        public function testLoginFailure()
+        {
+            require_once 'program_code/back_end/backend_main.php';
+
+            // CHANGE THESE VARIABLES TO TEST
+            $_POST['username'] = 'john';
+            $_POST['password'] = '1234';
+            //connects to local database
+	        $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
+
+            // tests login: if user can't login, loginHandler will return true
+            $result = loginHandler($db_test);
+            $this->assertEquals(true, $result);
         }
     }
 

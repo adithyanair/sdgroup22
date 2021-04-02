@@ -1,4 +1,6 @@
-<?php include '../back_end/backend_fuel_quote_form.php';
+<?php 
+      include '../back_end/backend_fuel_quote_form.php';
+      //include '../main/index.php';
       //include '../back_end/backend_main.php';
       //include '../back_end/backend_user_info.php'; ?>
 
@@ -6,7 +8,7 @@
 
 <html>
     <!-- Check if user has setup their profile first -->
-    <?php isProfileComplete($db); ?>
+    <?php isProfileComplete($db,$user); ?>
 
     <head>
         <title> FUEL QUOTE FORM </title>
@@ -33,7 +35,7 @@
                         <label>
                             <span>Delivering to: </span></span>
                             <!-- calls the user's address from the backend -->
-                            <p> <?php echo fetchAddress($db); ?></p>
+                            <p> <?php echo fetchAddress($db,$user); ?></p>
                         </label>
                     </div>
                     <div class="orderinfo">
