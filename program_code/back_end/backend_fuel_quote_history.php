@@ -63,8 +63,8 @@
             $html .= '<td>' . htmlspecialchars($row['del_date']) . '</td>';
             $html .= '<td>' . htmlspecialchars($row['del_add']) . '</td>';
             $html .= '<td>' . htmlspecialchars($row['gallon_req']) . '</td>';
-            $html .= '<td>' . htmlspecialchars($row['pricing_mod']) . '</td>';
-            $html .= '<td>' . htmlspecialchars($row['total']) . '</td>';
+            $html .= '<td>' . htmlspecialchars("$") . htmlspecialchars($row['pricing_mod']) . '</td>';
+            $html .= '<td>' . htmlspecialchars("$") . htmlspecialchars($row['total']) . '</td>';
             $html .= '</tr>';
             $dataCounter++;
         }

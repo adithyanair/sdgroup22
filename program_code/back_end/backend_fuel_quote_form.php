@@ -18,6 +18,53 @@
         }
     }
 
+    // checks if user profile is complete
+    function isProfileComplete($db)
+    {
+        // init value
+        $failed = false;
+        $username = $_SESSION['username'];
+        // query to fetch user id
+        $ID_query = "SELECT iduser
+                     FROM   user  
+                     WHERE  username = '$username' ";
+
+        $result_ID = mysqli_query($db, $ID_query);
+        // error checking
+        if (!$result_ID) {
+            echo "Could not successfully run query ($ID_query) from DB.";
+            $failed = true;
+            exit;
+        }
+        if (mysqli_num_rows($result_ID) == 0) {
+            echo "No rows found, nothing to print so am exiting";
+            $failed = true;
+            exit;
+        }
+        // fetches user id from db
+        $value = $result_ID->fetch_object();
+        $ID_user = $value->iduser;
+
+        // query to fetch user profile info
+        $profile_query = "SELECT client_add1, client_add2, city, state, zipcode
+                          FROM   user_info
+                          WHERE  iduser = '$ID_user' ";
+
+        $result_profile = mysqli_query($db, $profile_query);
+        // error checking
+        if (!$result_profile) {
+            $failed = true;
+            echo "Could not successfully run query ($profile_query) from DB.";
+            exit;
+        }
+        if (mysqli_num_rows($result_profile) == 0) {
+            $failed = true;
+            echo '<script>alert("Your user information has not been filled out yet. Please setup your user profile."); 
+						  location = "../main/index.php"; </script>';
+        }
+        return $failed;
+    }
+
     // fetches user's address from the database and returns a string
     function fetchAddress($db)
     {
@@ -53,8 +100,8 @@
             exit;
         }
         if (mysqli_num_rows($result_profile) == 0) {
-            echo '<script>alert("Your user information has not been filled out yet. Please setup your user profile."); 
-						  location = "../main/index.php"; </script>';
+            echo "No rows found, nothing to print so am exiting";
+            exit;
         }
         // fetches user profile info from db
         $row_fetchProfile = mysqli_fetch_assoc($result_profile);
