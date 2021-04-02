@@ -30,7 +30,7 @@
         $result_ID = mysqli_query($db, $ID_query);
         // error checking
         if (!$result_ID) {
-            echo "Could not successfully run query ($ID_query) from DB: " . mysqli_error();
+            echo "Could not successfully run query ($ID_query) from DB.";
             exit;
         }
         if (mysqli_num_rows($result_ID) == 0) {
@@ -49,7 +49,7 @@
         $result_profile = mysqli_query($db, $profile_query);
         // error checking
         if (!$result_profile) {
-            echo "Could not successfully run query ($profile_query) from DB: " . mysqli_error();
+            echo "Could not successfully run query ($profile_query) from DB.";
             exit;
         }
         if (mysqli_num_rows($result_profile) == 0) {
@@ -95,7 +95,7 @@
             $result_ID = mysqli_query($db, $ID_query);
             // error checking
             if (!$result_ID) {
-                echo "Could not successfully run query ($ID_query) from DB: " . mysqli_error();
+                echo "Could not successfully run query ($ID_query) from DB.";
                 exit;
             }
             if (mysqli_num_rows($result_ID) == 0) {
@@ -114,7 +114,7 @@
             $result_profile = mysqli_query($db, $profile_query);
             // error checking
             if (!$result_profile) {
-                echo "Could not successfully run query ($profile_query) from DB: " . mysqli_error();
+                echo "Could not successfully run query ($profile_query) from DB.";
                 exit;
             }
             if (mysqli_num_rows($result_profile) == 0) {
