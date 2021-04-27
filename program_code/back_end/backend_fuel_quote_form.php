@@ -3,7 +3,6 @@
 
     //Pricing Module Class
     class pricing_module_class{
-        public $current_price = 1.25; 
         public $margin = 0; 
         public $location = 0; 
         public $rate_history = 0;
@@ -59,7 +58,6 @@
 
         }
         //if client requested fuel before or check query fuel quote table to check if there are any rows for client
-           //if client requested fuel before or check query fuel quote table to check if there are any rows for client
            function ratehistory_factor($db, $username)
            {
                $ratehistory = 0; 
@@ -92,8 +90,9 @@
                $results = mysqli_query($db, $fuelquote_query);
                $count = mysqli_num_rows($results);
    
-               // if count is 1, login is successful
-               if ($count > 1) {
+               // if count is great than 1, then there is client in the history
+               if ($count > 1) 
+               {
                    $ratehistory = 0.01; 
                }
                else{
@@ -127,7 +126,7 @@
         
 
         //Total calculator Function 
-        function totalPrice($suggest_price, $gallon_req)
+        function totalPrice($suggested_price, $gallon_req)
         {
             return $suggested_price * $gallon_req; 
         }
