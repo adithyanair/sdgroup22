@@ -269,8 +269,8 @@
             $margin = $pricing_mod->margin_calculation($location_f , $ratehistory_f , $gallon_requested_f);
             $suggestedPrice = $pricing_mod->suggestedPrice($margin);
             $total_price =  $pricing_mod->totalPrice($suggestedPrice, $num_gallon);
-            
-            setcookie('gr', $gallon_req);
+
+            //setcookie('gr', $gallon_req);
             
 
             //handles quote submission
