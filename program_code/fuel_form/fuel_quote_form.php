@@ -45,7 +45,7 @@
                             </tr>
                             <tr>
                                 <td>Gallons Requested</td>
-                                <td>1000.15</td>
+                                <td>15</td>
                             </tr>
                             <tr>
                                 <td>Price / Gallon</td>
