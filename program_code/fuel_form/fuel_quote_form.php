@@ -72,11 +72,12 @@
                             document.getElementById("getquote").disabled=true;
                             document.getElementById("submitquote").disabled=true;
 
-                            alert "It's empty bitch!"
+                            alert "Please fill out the form before getting the quote."
                             }
                         else
                             document.getElementById("getquote").disabled=false;}
                             document.getElementById("submitquote").disabled=false;
+                            
                             </script>
 
                     </div>
