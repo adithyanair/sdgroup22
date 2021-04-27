@@ -68,18 +68,16 @@
                         var i=document.getElementById("gallon_req");
                         var j=document.getElementById("del_date");
                         if(i.value=="" || j.value=="")
-                            {
-                            
+                        {
                             document.getElementById("getquote").disabled=true;
                             document.getElementById("submitquote").disabled=true;
-
-                            echo '<script>alert("Please input a value";) </script>';
-                            }
+                        }
                         else
-                            document.getElementById("getquote").disabled=false;}
+                        {
+                            document.getElementById("getquote").disabled=false;
                             document.getElementById("submitquote").disabled=false;
-                            
-                            </script>
+                        }
+                        </script>
 
                     </div>
                 </div>
