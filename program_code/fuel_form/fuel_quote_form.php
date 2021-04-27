@@ -71,6 +71,7 @@
                         {
                             document.getElementById("getquote").disabled=true;
                             document.getElementById("submitquote").disabled=true;
+                            document.getElementById("getquote").class = "order buttonnn";
                         }
                         else
                         {
