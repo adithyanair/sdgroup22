@@ -69,10 +69,11 @@
                         var j=document.getElementById("del_date");
                         if(i.value=="" || j.value=="")
                             {
+                            
                             document.getElementById("getquote").disabled=true;
                             document.getElementById("submitquote").disabled=true;
 
-                            alert "Please fill out the form before getting the quote."
+                            echo '<script>alert("Please input a value";) </script>';
                             }
                         else
                             document.getElementById("getquote").disabled=false;}
