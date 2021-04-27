@@ -37,7 +37,7 @@
                             <!-- calls the user's address from the backend -->
                             <p> <?php echo fetchAddress($db,$user); ?></p>
                         </label>
-                    </div>
+                    </div>      
                     <div class="orderinfo">
                         <table>
                             <tr>
@@ -61,8 +61,24 @@
                             </tr>
                         </table><br>
 
-                        <input type="submit" class="order button" name="getquote" value="Get Quote"><br>
-                        <input type="submit" class="order button" name="submitquote" value="Submit Quote">
+                        <input type="submit" class="order button"  name="getquote" value="Get Quote"> <br>
+                        <input type="submit" class="order button"  name="submitquote" value="Submit Quote" >
+                        <script>
+                        function s(){
+                        var i=document.getElementById("gallon_req");
+                        var j=document.getElementById("del_date");
+                        if(i.value=="" || j.value=="")
+                            {
+                            document.getElementById("getquote").disabled=true;
+                            document.getElementById("submitquote").disabled=true;
+
+                            alert "It's empty bitch!"
+                            }
+                        else
+                            document.getElementById("getquote").disabled=false;}
+                            document.getElementById("submitquote").disabled=false;
+                            </script>
+
                     </div>
                 </div>
             </div>
