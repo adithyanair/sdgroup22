@@ -118,13 +118,13 @@ p {
   color: #fff;
   font-size: 20px;
   font-weight: bold;
-  box-shadow: 1px 6px 10px #393945;
-  transition-duration: 0.7s;
+  /*box-shadow: 1px 6px 10px #393945;
+  transition-duration: 0.7s;*/
 }
-.button:hover {
+/*.button:hover {
   cursor: pointer;
   background: #73f589;
-}
+}*/
 
 table {
   margin: 10;
