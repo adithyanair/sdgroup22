@@ -3,23 +3,19 @@
 
     //Pricing Module Class
     class pricing_module_class{
-        public $margin = 0; 
-        public $location = 0; 
-        public $rate_history = 0;
-        public $gallon_req_fac = 0; 
-        public $company_profit = 0.10; 
         //Suggested Price =  Current Price * (Location Factor - Rate History Factor + Gallons Requested Factor + Company Profit Factor)
         function suggestedPrice($margin)
         {
             $current_price = 1.5;
             $pricing_mod = $current_price + $margin;
             //return $this -> current_price + $this -> margin; 
+        
         }
 
         //if in texas = 2%, outside of texas = 4%
         function location_factor($db, $username)
         {
-            $location_f = 0;
+        $location_f = 0;
             // query to fetch user id
         $ID_query = "SELECT iduser
         FROM   user  
@@ -58,10 +54,10 @@
 
         }
         //if client requested fuel before or check query fuel quote table to check if there are any rows for client
-           function ratehistory_factor($db, $username)
+           function ratehistory_factor($db, $username) //need work
            {
-               $ratehistory = 0; 
-               $ID_query = "SELECT iduser
+            $ratehistory = 0; 
+            $ID_query = "SELECT iduser
            FROM   user  
            WHERE  username = '$username' ";
    
@@ -85,7 +81,6 @@
            $value2 = $result_iduserinfo->fetch_object();
            $ID_userinfo = $value->iduser_info;
    
-               ////////////////////////////////////////////////
                $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo'";
                $results = mysqli_query($db, $fuelquote_query);
                $count = mysqli_num_rows($results);
@@ -101,34 +96,81 @@
 
                return $ratehistory; 
            }
+        
         //2% = above 1000 gallon, 3% if below 1000 gallons
-        function gallonrequested_factor($gallon)
+        function gallonrequested_factor($db, $username) //need work
         {
-            if($gallon > 1000)
+        $gallon_req_factor = 0; 
+        
+        $ID_query = "SELECT iduser
+        FROM   user  
+        WHERE  username = '$username' ";
+
+        $result_ID = mysqli_query($db, $ID_query);
+        // error checking
+        if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
+        echo "Could not successfully run query ($ID_query) from DB.";
+        exit;
+        }
+        // fetches user id from db
+        $value = $result_ID->fetch_object();
+        $ID_user = $value->iduser;
+
+        // query to fetch user profile info
+        $profile_query = "SELECT iduser_info
+                         FROM   user_info
+                         WHERE  iduser = '$ID_user' ";
+
+        $result_userinfo = mysqli_query($db, $profile_query);
+        // fetches user profile info from db
+        $value = $result_userinfo->fetch_object();
+        $iduser_info = $value->iduser_info;
+
+        $gr_query = "SELECT gallon_req
+                    FROM   fuel_quote
+                     WHERE  iduser_info = '$iduser_info' ";
+
+        $result_fuel = mysqli_query($db, $gr_query);
+        // fetches user profile info from db
+        $row_fetchProfile = mysqli_fetch_assoc($result_fuel);
+
+        $value = $result_fuel->fetch_object();
+        $fuel_fetch = $value->gallon_req;
+
+
+       // $fuel_fetch = $row_fetchProfile["gallon_req"];
+        echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
+            location = "fuel_quote_form.php"; </script>';
+        
+            if($fuel_fetch > 1000)
             {
-                $this -> gallon_req_factor = 0.02;
-                return $this -> gallon_req_factor;
+                $gallon_req_factor = 0.02; 
+                
+                //$this -> gallon_req_factor = 0.02;
+                //return $this -> gallon_req_factor;
             }
-            else 
+            if($fuel_fetch < 1000) 
             {
-                $this -> gallon_req_factor = 0.03; 
-                return $this -> gallon_req_factor;
+                $gallon_req_factor = 0.03; 
+               // $this -> gallon_req_factor = 0.03; 
+                //return $this -> gallon_req_factor;
             }
                
+            return $gallon_req_fac; 
         }
     
         function margin_calculation($location , $rate_history , $gallon_req_fac)
         {
             $company_profit = 0.1; 
-           $margin = $location - $rate_history + $gallon_req_fac +$company_profit;
-           return $margin; 
+            $current_price = 1.5;
+            $margin = ($location - $rate_history + $gallon_req_fac +$company_profit) *$current_price;
+            return $margin; 
         }
         
-
         //Total calculator Function 
-        function totalPrice($suggested_price, $gallon_req)
+        function totalPrice($suggestedPrice, $gallon_req)
         {
-            return $suggested_price * $gallon_req; 
+            return $suggestedPrice * $gallon_req; 
         }
 
     }
@@ -260,16 +302,19 @@
                 $user_add_for_quote = $row_fetchProfile["client_add1"].", ".$row_fetchProfile["client_add2"].", ".$row_fetchProfile["city"].", ".$row_fetchProfile["state"].", ".$row_fetchProfile["zipcode"];
             }
 
-            //gets estimated prices from pricing module
+            //gets suggested price for pricing module
             $pricing_mod = new pricing_module_class();
             $location_f = $pricing_mod->location_factor($db, $username);
-            $ratehistory_f = $pricing_mod->ratehistory_factor($db, $username);
-            $gallon_requested_f = $pricing_mod->gallonrequested_factor($gallon_req); 
+            
+            $ratehistory_f = $pricing_mod->ratehistory_factor($db, $username); //no
+            
+            $gallon_requested_f = $pricing_mod->gallonrequested_factor($db, $username);
+            
+           
             $margin = $pricing_mod->margin_calculation($location_f , $ratehistory_f , $gallon_requested_f);
             $suggestedPrice = $pricing_mod->suggestedPrice($margin);
             $total_price =  $pricing_mod->totalPrice($suggestedPrice, $num_gallon);
 
-            //setcookie('gr', $gallon_req);
             
 
             //handles quote submission
