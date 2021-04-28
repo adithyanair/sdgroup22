@@ -93,11 +93,11 @@
            }
         
 //2% = above 1000 gallon, 3% if below 1000 gallons
-        function gallonrequested_factor($db, $username) //need work
+        function gallonrequested_factor($fuel_fetch) //need work
         {
         $gallon_req_factor = 0; 
         
-        $ID_query = "SELECT iduser
+        /*$ID_query = "SELECT iduser
         FROM   user  
         WHERE  username = '$username' ";
         $result_ID = mysqli_query($db, $ID_query);
@@ -152,7 +152,7 @@
         $value = $result_fuel->fetch_object();
         $gallon_req = $value->gallon_req;*/
 
-        $gr_query = "SELECT gallon_req
+        /*$gr_query = "SELECT gallon_req
                          FROM   fuel_quote
                          WHERE  idfuel_quote = '$id_fuel_form' ";
 
@@ -162,15 +162,16 @@
         $gallon_req = $value->gallon_req;
 
         echo '<script>alert("you requested: '.$gallon_req.'!"); 
-        //location = "fuel_quote_form.php"; </script>';
+        //location = "fuel_quote_form.php"; </script>';*/
 
        // $fuel_fetch = $row_fetchProfile["gallon_req"];
         //echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
         //location = "fuel_quote_form.php"; </script>';
-            /*if($fuel_fetch > 1000)
+            if($fuel_fetch > 1000)
             {
                 $gallon_req_factor = 0.02; 
-                
+                 echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
+                    //location = "fuel_quote_form.php"; </script>';
                 //$this -> gallon_req_factor = 0.02;
                 //return $this -> gallon_req_factor;
             }
@@ -179,9 +180,9 @@
                 $gallon_req_factor = 0.03; 
                // $this -> gallon_req_factor = 0.03; 
                 //return $this -> gallon_req_factor;
-            }*/
+            }
                
-            return $gallon_req_fac; 
+            return $gallon_req_factor; 
         }
     
         //For the calculation for margin 
@@ -344,7 +345,7 @@
             
             $ratehistory_f = $pricing_mod->ratehistory_factor($db, $username); //no
             
-            $gallon_requested_f = $pricing_mod->gallonrequested_factor($db, $username);
+            $gallon_requested_f = $pricing_mod->gallonrequested_factor($num_gallon);
             
            
             $margin = $pricing_mod->margin_calculation($location_f , $ratehistory_f , $gallon_requested_f);
