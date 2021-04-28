@@ -77,13 +77,14 @@
            $value2 = $result_iduserinfo->fetch_object();
            $ID_userinfo = $value->iduser_info;
    
-           $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo'";
+           $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo' LIMIT 1";
            $results = mysqli_query($db, $fuelquote_query);
            $count = mysqli_num_rows($results);
    
             // if count is great than 1, then there is client in the history
-            if ($count > 1) {
+            if ($count) {
                 $ratehistory = 0.01; 
+                echo '<script>alert("0.1")</script>';
             }
             else{
                 $ratehistory = 0;
