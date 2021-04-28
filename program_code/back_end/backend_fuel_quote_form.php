@@ -99,81 +99,11 @@
         {
         $gallon_req_factor = 0; 
         
-        /*$ID_query = "SELECT iduser
-        FROM   user  
-        WHERE  username = '$username' ";
-        $result_ID = mysqli_query($db, $ID_query);
-
-        // error checking
-        if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
-        echo "Could not successfully run query ($ID_query) from DB.";
-        exit;
-        }
-        // fetches user id from db
-        $value = $result_ID->fetch_object();
-        $ID_user = $value->iduser;
-
-        // query to fetch user profile info
-        $profile_query = "SELECT iduser_info
-                         FROM   user_info
-                         WHERE  iduser = '$ID_user' ";
-
-        $result_userinfo = mysqli_query($db, $profile_query);
-
-        $value = $result_userinfo->fetch_object();
-        $iduser_info = $value->iduser_info;
-        
-
-///////////////////////////////
-        $id_fuel_quote_query = "SELECT MAX(idfuel_quote) as max
-                    FROM   fuel_quote
-                     WHERE  iduser_info = '$iduser_info' ";
-
-        $result_ID_fuel = mysqli_query($db, $id_fuel_quote_query);
-        // fetches user profile info from db
-        $row_fetch_id_fuel = mysqli_fetch_assoc($result_ID_fuel);
-
-        $id_fuel_form = $row_fetch_id_fuel[max];
-
-        $id_fuel_form_final = $id_fuel_form + 1;
-
-        echo '<script>alert("Id fuel form:  '.$id_fuel_form.'!"); 
-        //location = "fuel_quote_form.php"; </script>';
-
-////////////////////////////////////
-
-
-        /*$gr_query = "SELECT gallon_req
-                    FROM   fuel_quote
-                     WHERE  idfuel_quote = '$id_fuel_form_final' ";
-
-        $result_fuel = mysqli_query($db, $gr_query);
-        // fetches user profile info from db
-        //$row_fetchProfile = mysqli_fetch_assoc($result_fuel);
-
-        $value = $result_fuel->fetch_object();
-        $gallon_req = $value->gallon_req;*/
-
-        /*$gr_query = "SELECT gallon_req
-                         FROM   fuel_quote
-                         WHERE  idfuel_quote = '$id_fuel_form' ";
-
-        $result_gr = mysqli_query($db, $gr_query);
-
-        $value = $result_gr->fetch_object();
-        $gallon_req = $value->gallon_req;
-
-        echo '<script>alert("you requested: '.$gallon_req.'!"); 
-        //location = "fuel_quote_form.php"; </script>';*/
-
-       // $fuel_fetch = $row_fetchProfile["gallon_req"];
-        //echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
-        //location = "fuel_quote_form.php"; </script>';
             if($fuel_fetch > 1000)
             {
                 $gallon_req_factor = 0.02; 
-                 echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
-                    //location = "fuel_quote_form.php"; </script>';
+                 /*echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
+                    //location = "fuel_quote_form.php"; </script>';*/
                 //$this -> gallon_req_factor = 0.02;
                 //return $this -> gallon_req_factor;
             }
@@ -193,6 +123,9 @@
             $company_profit = 0.1; 
             $current_price = 1.5;
             $margin = ($location - $rate_history + $gallon_req_fac +$company_profit) * $current_price;
+
+            
+
             return $margin; 
 
         }
@@ -204,6 +137,8 @@
             $current_price = 1.5;
             $pricing_mod = $current_price + $margin;
             //return $this -> current_price + $this -> margin; 
+
+            return $pricing_mod;
         
         }
 
