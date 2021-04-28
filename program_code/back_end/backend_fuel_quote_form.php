@@ -120,26 +120,56 @@
 
         $result_userinfo = mysqli_query($db, $profile_query);
 
-        // fetches GALLON_REQ from fuel quote table from db
         $value = $result_userinfo->fetch_object();
         $iduser_info = $value->iduser_info;
+        
 
-        $gr_query = "SELECT gallon_req
+///////////////////////////////
+        $id_fuel_quote_query = "SELECT MAX(idfuel_quote) as max
                     FROM   fuel_quote
                      WHERE  iduser_info = '$iduser_info' ";
 
+        $result_ID_fuel = mysqli_query($db, $id_fuel_quote_query);
+        // fetches user profile info from db
+        $row_fetch_id_fuel = mysqli_fetch_assoc($result_ID_fuel);
+
+        $id_fuel_form = $row_fetch_id_fuel[max];
+
+        $id_fuel_form_final = $id_fuel_form + 1;
+
+        echo '<script>alert("Id fuel form:  '.$id_fuel_form.'!"); 
+        //location = "fuel_quote_form.php"; </script>';
+
+////////////////////////////////////
+
+
+        /*$gr_query = "SELECT gallon_req
+                    FROM   fuel_quote
+                     WHERE  idfuel_quote = '$id_fuel_form_final' ";
+
         $result_fuel = mysqli_query($db, $gr_query);
         // fetches user profile info from db
-        $row_fetchProfile = mysqli_fetch_assoc($result_fuel);
+        //$row_fetchProfile = mysqli_fetch_assoc($result_fuel);
 
         $value = $result_fuel->fetch_object();
-        $fuel_fetch = $value->gallon_req;
+        $gallon_req = $value->gallon_req;*/
 
+        $gr_query = "SELECT gallon_req
+                         FROM   fuel_quote
+                         WHERE  idfuel_quote = '$id_fuel_form' ";
+
+        $result_gr = mysqli_query($db, $gr_query);
+
+        $value = $result_gr->fetch_object();
+        $gallon_req = $value->gallon_req;
+
+        echo '<script>alert("you requested: '.$gallon_req.'!"); 
+        //location = "fuel_quote_form.php"; </script>';
 
        // $fuel_fetch = $row_fetchProfile["gallon_req"];
         //echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
         //location = "fuel_quote_form.php"; </script>';
-            if($fuel_fetch > 1000)
+            /*if($fuel_fetch > 1000)
             {
                 $gallon_req_factor = 0.02; 
                 
@@ -151,7 +181,7 @@
                 $gallon_req_factor = 0.03; 
                // $this -> gallon_req_factor = 0.03; 
                 //return $this -> gallon_req_factor;
-            }
+            }*/
                
             return $gallon_req_fac; 
         }
