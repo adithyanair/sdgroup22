@@ -4,69 +4,64 @@
     //Pricing Module Class
     class pricing_module_class{
         //Suggested Price =  Current Price * (Location Factor - Rate History Factor + Gallons Requested Factor + Company Profit Factor)
-        function suggestedPrice($margin)
-        {
-            $current_price = 1.5;
-            $pricing_mod = $current_price + $margin;
-            //return $this -> current_price + $this -> margin; 
-        
-        }
-
-        //if in texas = 2%, outside of texas = 4%
-        function location_factor($db, $username)
+      
+//if in texas = 2%, outside of texas = 4%
+        function location_factor($db, $username) //THIS WORKS!
         {
         $location_f = 0;
-            // query to fetch user id
+        
+        // query to fetch user id
         $ID_query = "SELECT iduser
         FROM   user  
         WHERE  username = '$username' ";
-
         $result_ID = mysqli_query($db, $ID_query);
+
         // error checking
         if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
         echo "Could not successfully run query ($ID_query) from DB.";
         exit;
         }
+
         // fetches user id from db
         $value = $result_ID->fetch_object();
         $ID_user = $value->iduser;
 
-        // query to fetch user profile info
+        // query to fetch STATE from the user_info table
         $profile_query = "SELECT state
                          FROM   user_info
                          WHERE  iduser = '$ID_user' ";
-
         $result_profile = mysqli_query($db, $profile_query);
+
         // fetches user profile info from db
         $row_fetchProfile = mysqli_fetch_assoc($result_profile);
 
         $state_fetch = $row_fetchProfile["state"];
 
-        if($state_fetch == 'TX')
-        {
+        if($state_fetch == 'TX'){
             $location_f = 0.02;
         }
         else{
             $location_f = 0.04;
         }
-        
         return $location_f;
 
         }
-        //if client requested fuel before or check query fuel quote table to check if there are any rows for client
+//if client requested fuel before or check query fuel quote table to check if there are any rows for client
            function ratehistory_factor($db, $username) //need work
            {
             $ratehistory = 0; 
+
             $ID_query = "SELECT iduser
            FROM   user  
            WHERE  username = '$username' ";
-   
            $result_ID = mysqli_query($db, $ID_query);
+
            // error checking
            if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
            echo "Could not successfully run query ($ID_query) from DB.";
            exit;
            }
+
            // fetches user id from db
            $value = $result_ID->fetch_object();
            $ID_user = $value->iduser;
@@ -77,27 +72,26 @@
                             WHERE  iduser = '$ID_user' ";
    
            $result_iduserinfo = mysqli_query($db, $userinfo_query);
+
            // fetches user profile info from db
            $value2 = $result_iduserinfo->fetch_object();
            $ID_userinfo = $value->iduser_info;
    
-               $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo'";
-               $results = mysqli_query($db, $fuelquote_query);
-               $count = mysqli_num_rows($results);
+           $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo'";
+           $results = mysqli_query($db, $fuelquote_query);
+           $count = mysqli_num_rows($results);
    
-               // if count is great than 1, then there is client in the history
-               if ($count > 1) 
-               {
-                   $ratehistory = 0.01; 
-               }
-               else{
+            // if count is great than 1, then there is client in the history
+            if ($count > 1) {
+                $ratehistory = 0.01; 
+            }
+            else{
                 $ratehistory = 0;
-               }
-
+            }
                return $ratehistory; 
            }
         
-        //2% = above 1000 gallon, 3% if below 1000 gallons
+//2% = above 1000 gallon, 3% if below 1000 gallons
         function gallonrequested_factor($db, $username) //need work
         {
         $gallon_req_factor = 0; 
@@ -105,8 +99,8 @@
         $ID_query = "SELECT iduser
         FROM   user  
         WHERE  username = '$username' ";
-
         $result_ID = mysqli_query($db, $ID_query);
+
         // error checking
         if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
         echo "Could not successfully run query ($ID_query) from DB.";
@@ -122,7 +116,8 @@
                          WHERE  iduser = '$ID_user' ";
 
         $result_userinfo = mysqli_query($db, $profile_query);
-        // fetches user profile info from db
+
+        // fetches GALLON_REQ from fuel quote table from db
         $value = $result_userinfo->fetch_object();
         $iduser_info = $value->iduser_info;
 
@@ -139,9 +134,8 @@
 
 
        // $fuel_fetch = $row_fetchProfile["gallon_req"];
-        echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
-            location = "fuel_quote_form.php"; </script>';
-        
+        //echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
+        //location = "fuel_quote_form.php"; </script>';
             if($fuel_fetch > 1000)
             {
                 $gallon_req_factor = 0.02; 
@@ -159,18 +153,29 @@
             return $gallon_req_fac; 
         }
     
+        //For the calculation for margin 
         function margin_calculation($location , $rate_history , $gallon_req_fac)
         {
             $company_profit = 0.1; 
             $current_price = 1.5;
-            $margin = ($location - $rate_history + $gallon_req_fac +$company_profit) *$current_price;
+            $margin = ($location - $rate_history + $gallon_req_fac +$company_profit) * $current_price;
             return $margin; 
         }
-        
-        //Total calculator Function 
-        function totalPrice($suggestedPrice, $gallon_req)
+
+        //Margin calculation + current price which is constant
+        function suggestedPrice($margin)
         {
-            return $suggestedPrice * $gallon_req; 
+             
+            $current_price = 1.5;
+            $pricing_mod = $current_price + $margin;
+            //return $this -> current_price + $this -> margin; 
+        
+        }
+
+        //Total calculator Function 
+        function totalPrice($pricing_mod, $gallon_req)
+        {
+            return $pricing_mod * $gallon_req; 
         }
 
     }
