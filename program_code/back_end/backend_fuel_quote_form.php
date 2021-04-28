@@ -47,25 +47,25 @@
 
         }
 //if client requested fuel before or check query fuel quote table to check if there are any rows for client
-           function ratehistory_factor($db, $username) //need work
+           function ratehistory_factor($db, $username) //WORKS
            {
             $ratehistory = 0; 
 
             $ID_query = "SELECT iduser
-           FROM   user  
-           WHERE  username = '$username' ";
-           $result_ID = mysqli_query($db, $ID_query);
+            FROM   user  
+            WHERE  username = '$username' ";
+            $result_ID = mysqli_query($db, $ID_query);
 
            // error checking
            if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
            echo "Could not successfully run query ($ID_query) from DB.";
            exit;
            }
-
            // fetches user id from db
            $value = $result_ID->fetch_object();
            $ID_user = $value->iduser;
    
+
            // query to fetch user profile info
            $userinfo_query = "SELECT iduser_info
                             FROM   user_info
@@ -75,21 +75,23 @@
 
            // fetches user profile info from db
            $value2 = $result_iduserinfo->fetch_object();
-           $ID_userinfo = $value->iduser_info;
+           $ID_userinfo = $value2->iduser_info;
    
+           //query to fetch fuel quote info 
            $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo' LIMIT 1";
            $results = mysqli_query($db, $fuelquote_query);
            $count = mysqli_num_rows($results);
-   
+
             // if count is great than 1, then there is client in the history
             if ($count) {
                 $ratehistory = 0.01; 
-                echo '<script>alert("0.1")</script>';
             }
             else{
                 $ratehistory = 0;
+                
             }
                return $ratehistory; 
+               
            }
         
 //2% = above 1000 gallon, 3% if below 1000 gallons
@@ -161,6 +163,7 @@
             $current_price = 1.5;
             $margin = ($location - $rate_history + $gallon_req_fac +$company_profit) * $current_price;
             return $margin; 
+
         }
 
         //Margin calculation + current price which is constant
@@ -327,7 +330,7 @@
             if (isset($_POST['submitquote'])) {
                 //inserts into database
 				$quote_submit_query = "INSERT INTO fuel_quote(del_date, del_add, gallon_req, pricing_mod, total, iduser_info)
-                          	           VALUES ('$date_req', '$user_add_for_quote', '$num_gallon', '$estimated_price', '$total_price', '$ID_user')";
+                          	           VALUES ('$date_req', '$user_add_for_quote', '$num_gallon', '$suggestedPrice', '$total_price', '$ID_user')";
 				$result_insert_quote_query = mysqli_query($db, $quote_submit_query);
                 // error checking
                 if (!$result_insert_quote_query) {
