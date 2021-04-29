@@ -120,6 +120,24 @@ p {
   box-shadow: 1px 6px 10px #393945;
   transition-duration: 0.7s;
 }
+
+.orderinfo .buttonnn {
+  width: 80%;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 30px;
+  margin-bottom: 20px;
+  padding: 1px;
+  border: none;
+  border-radius: 20px;
+  background: #63053f;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 1px 6px 10px #393945;
+  transition-duration: 0.7s;
+}
+
 /*
 .button:hover {
   cursor: pointer;

@@ -26,11 +26,11 @@
                     <div class="inputinfo">
                         <label>
                             <span class="inputgallons">Gallons Requested: <span class="required">*</span></span>
-                            <input type="number" step="any" class="form-control" placeholder="Please enter a number" id="id_gr" name="gallon_req" min="0" onkeypress="return event.charCode != 45" required><br><br>
+                            <input type="number" step="any" class="form-control" placeholder="Please enter a number" onchange="check()" oninput="check()" id="id_gr" name="gallon_req" min="0" onkeypress="return event.charCode != 45" required><br><br>
                         </label>
                         <label>
                             <span class="inputdate">Delivery Date: <span class="required">*</span></span>
-                            <input type="text" class="form-control" placeholder="Please enter a date" id="id_dd" name="del_date" onfocus="(this.type='date')" required><br><br>
+                            <input type="text" class="form-control" placeholder="Please enter a date" id="id_dd" onchange="check()" oninput="check()"  name="del_date" onfocus="(this.type='date')" required><br><br>
                         </label>
                         <label>
                             <span>Delivering to: </span></span>
@@ -61,9 +61,64 @@
                             </tr>
                         </table><br>
 
-                        <input type="submit" class="order button" id="id_getquote" name="getquote" value="Get Quote"> <br>
-                        <input type="submit" class="order button" id="id_submitquote" name="submitquote" value="Submit Quote" >
+                        <input type="submit"  id="id_getquote" name="getquote" value="Get Quote" 
+                                                style="width: 80%; 
+                                                height: 30px;
+                                                margin-top: 10px;
+                                                margin-left: 30px;
+                                                margin-bottom: 20px;
+                                                padding: 1px;
+                                                border: none;
+                                                border-radius: 20px;
+                                                background: #808080;
+                                                color: #fff;
+                                                font-size: 20px;
+                                                font-weight: bold;
+                                                box-shadow: 1px 6px 10px #393945;
+                                                transition-duration: 0.7s;"> <br>
+                        <input type="submit"  id="id_submitquote" name="submitquote" value="Submit Quote" 
+                                                style="width: 80%;
+                                                height: 30px;
+                                                margin-top: 10px;
+                                                margin-left: 30px;
+                                                margin-bottom: 20px;
+                                                padding: 1px;
+                                                border: none;
+                                                border-radius: 20px;
+                                                background: #808080;
+                                                color: #fff;
+                                                font-size: 20px;
+                                                font-weight: bold;
+                                                box-shadow: 1px 6px 10px #393945;
+                                                transition-duration: 0.7s;" >
                         
+                        <script>
+                            function changeTheColorOfButtonDemo() {
+                                if (document.getElementById("id_dd").value !== "") {
+                                document.getElementById("id_submitquote").style.background = "green";
+                                } else {
+                                document.getElementById("id_submitquote").style.background = "skyblue";
+                                }
+                            }
+                        </script>
+
+                        <script type="text/javascript">
+                            function check(){
+                                var tocheck = ["gallon_req", "del_date"];
+                                var tf = document.getElementById("my_form");
+                                var ok = true;
+                                var i;
+                                for(i=0; i<tocheck.length; i++){
+                                    ok = ok && tf.elements[tocheck[i]].value != "";
+                                }
+                                //new style for get quote button:
+                                document.getElementById("id_getquote").style.background = ok ? "#050f63" : "#808080";
+
+                                //new style for submit quote button:
+                                document.getElementById("id_submitquote").style.background = ok ? "#050f63" : "#808080";
+                            }
+                        </script>
+
                         <script>
                         function s(){
                         var i=document.getElementById("id_gr");
