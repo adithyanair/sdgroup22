@@ -280,19 +280,20 @@
             //gets suggested price for pricing module
             $pricing_mod = new pricing_module_class();
             $location_f = $pricing_mod->location_factor($db, $username);
-            
             $ratehistory_f = $pricing_mod->ratehistory_factor($db, $username); //no
-            
             $gallon_requested_f = $pricing_mod->gallonrequested_factor($num_gallon);
-            
-           
             $margin = $pricing_mod->margin_calculation($location_f , $ratehistory_f , $gallon_requested_f);
             $suggestedPrice = $pricing_mod->suggestedPrice($margin);
+            //gets total price for pricing module
             $total_price =  $pricing_mod->totalPrice($suggestedPrice, $num_gallon);
             
             //handles ajax quote getter
             if (isset($_POST['getquote'])) {
-                echo $suggestedPrice;
+                //formats numbers
+                $total_price_r = round($total_price, 2);
+                $total_price_f = sprintf('%0.2f', $total_price_r);
+                $return_values=array($suggestedPrice, $total_price_f);
+                echo json_encode($return_values);
                 exit;
             }
             

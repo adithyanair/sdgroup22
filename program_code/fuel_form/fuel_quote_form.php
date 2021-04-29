@@ -64,21 +64,26 @@
                         <input type="submit" class="order button" id="id_getquote" name="getquote" value="Get Quote"> <br>
                         <input type="submit" class="order button" id="id_submitquote" name="submitquote" value="Submit Quote" >
                         
-                        
                         <script>
                         function s(){
-                        var i=document.getElementById("gallon_req");
-                        var j=document.getElementById("del_date");
+                        var i=document.getElementById("id_gr");
+                        var j=document.getElementById("id_dd");
                         if(i.value=="" || j.value=="")
                         {
-                            document.getElementById("getquote").disabled=true;
-                            document.getElementById("submitquote").disabled=true;
-                            document.getElementById("getquote").class = "order buttonnn";
+                            document.getElementById("id_getquote").disabled=true;
+                            document.getElementById("id_submitquote").disabled=true;
+                            function mouseOver() {
+                                document.getElementById("id_getquote").style.color = "red";
+                            }
+
+                            function mouseOut() {
+                                document.getElementById("id_getquote").style.color = "black";
+                            }
                         }
                         else
                         {
-                            document.getElementById("getquote").disabled=false;
-                            document.getElementById("submitquote").disabled=false;
+                            document.getElementById("id_getquote").disabled=false;
+                            document.getElementById("id_submitquote").disabled=false;
                         }
                         </script>
 
@@ -109,40 +114,45 @@
                         required: true,
                     }
                 },
+                                
                 submitHandler: function(form) {
                     var isQuote = false;
+                    var submit_gallon_req = document.getElementById("id_gr").value;
+                    var submit_del_date = document.getElementById("id_dd").value;
+                    
                     //behavior for get quote button
                     $('#id_getquote').click(function(){
-                        var submit_gallon_req = document.getElementById("id_gr").value;
-                        var submit_del_date = document.getElementById("id_dd").value;
-                            //ajax call to get data from backend
-                            jQuery.ajax({
-                                type: 'POST',
-                                url: "../back_end/backend_fuel_quote_form.php",
-                                data: {getquote: 1, gallon_req:submit_gallon_req, del_date:submit_del_date},
-                                success: function(price){
-                                    //updates fields in webpage
-                                    $('#gal_r').text(submit_gallon_req);
-                                    $('#d_date').text(submit_del_date);
-                                    $('#ppg').text('$' + price);
-                                    $('#total').text('$' + price);    //FIX TOTAL VALUE TUPLE?
-                                },
-                                error: function(){
-                                    $('#ppg').text('There is an error in getting quote.');
-                                }
-                            });
-                            isQuote = true;
+                        submit_gallon_req = document.getElementById("id_gr").value;
+                        submit_del_date = document.getElementById("id_dd").value;
+                        //ajax call to get data from backend
+                        jQuery.ajax({
+                            type: 'POST',
+                            url: "../back_end/backend_fuel_quote_form.php",
+                            data: {getquote: 1, gallon_req:submit_gallon_req, del_date:submit_del_date},
+                            dataType: "json",
+                            success: function(response){
+                                //updates fields in webpage
+                                $('#gal_r').text(submit_gallon_req);
+                                $('#d_date').text(submit_del_date);
+                                $('#ppg').text('$' + response[0]);
+                                $('#total').text('$' + response[1]);
+                            },
+                            error: function(){
+                                $('#ppg').text('There is an error in getting quote.');
+                            }
+                        });
+                        isQuote = true;
                     });
                     //behavior for submit quote button
                     $('#id_submitquote').click(function(){
-                        var submit_gallon_req = document.getElementById("id_gr").value;
-                        var submit_del_date = document.getElementById("id_dd").value;
+                        submit_gallon_req2 = document.getElementById("id_gr").value;
+                        submit_del_date2 = document.getElementById("id_dd").value;
                         if (isQuote == true) {                              //FIX REGET QUOTE  if new values != old values, fail 
                             //ajax call to get data from backend            //FIX MULTIREQUESTS
                             jQuery.ajax({
                                 type: 'POST',
                                 url: "../back_end/backend_fuel_quote_form.php",
-                                data: {submitquote: 1, gallon_req:submit_gallon_req, del_date:submit_del_date},
+                                data: {submitquote: 1, gallon_req:submit_gallon_req2, del_date:submit_del_date2},
                                 success: function(price){
                                     //alerts user and redirects to main menu
                                     alert("Your quote has been submitted."); 

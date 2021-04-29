@@ -120,11 +120,12 @@ p {
   box-shadow: 1px 6px 10px #393945;
   transition-duration: 0.7s;
 }
+/*
 .button:hover {
   cursor: pointer;
   background: #73f589;
 }
-
+*/
 table {
   margin: 10;
   padding: 0;
