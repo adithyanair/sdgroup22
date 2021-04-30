@@ -12,7 +12,7 @@
             require_once 'program_code/back_end/backend_main.php';
 
             // CHANGE THESE VARIABLES TO TEST
-            $_POST['register_user'] = 'test16';
+            $_POST['register_user'] = 'test20';
             $_POST['register_password'] = '123';
             //connects to local database
 	        $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');

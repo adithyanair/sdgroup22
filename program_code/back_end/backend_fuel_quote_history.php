@@ -54,12 +54,16 @@
 
         //builds each row of quotes to be output to the table in the front end
         while($row = mysqli_fetch_array($result_quote)) {
+            //formats numbers
+            $total_price_r = round($row['total'], 2);  
+            $total_price_f = sprintf('%0.2f', $total_price_r);
+
             $html .= '<tr>';
             $html .= '<td>' . htmlspecialchars($row['del_date']) . '</td>';
             $html .= '<td>' . htmlspecialchars($row['del_add']) . '</td>';
             $html .= '<td>' . htmlspecialchars($row['gallon_req']) . '</td>';
             $html .= '<td>' . htmlspecialchars("$") . htmlspecialchars($row['pricing_mod']) . '</td>';
-            $html .= '<td>' . htmlspecialchars("$") . htmlspecialchars($row['total']) . '</td>';
+            $html .= '<td>' . htmlspecialchars("$") . htmlspecialchars($total_price_f) . '</td>';
             $html .= '</tr>';
             $dataCounter++;
         }

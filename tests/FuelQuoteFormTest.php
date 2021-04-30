@@ -4,7 +4,7 @@
 
     use PHPUnit\Framework\TestCase;
 
-    class FuelquoteformTest extends TestCase
+    class FuelQuoteFormTest extends TestCase
     {
         // sets up test environment
         protected function setUp(): void
