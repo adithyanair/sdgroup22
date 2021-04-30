@@ -171,6 +171,7 @@
                 },
                                 
                 submitHandler: function(form) {
+                    $('#id_getquote').attr("disabled", false);
                     var isQuote = false;
                     var submit_gallon_req = document.getElementById("id_gr").value;
                     var submit_del_date = document.getElementById("id_dd").value;
@@ -181,6 +182,7 @@
                         submit_del_date = document.getElementById("id_dd").value;
                         //ajax call to get data from backend
                         jQuery.ajax({
+                            //async: false,
                             type: 'POST',
                             url: "../back_end/backend_fuel_quote_form.php",
                             data: {getquote: 1, gallon_req:submit_gallon_req, del_date:submit_del_date},
@@ -191,20 +193,23 @@
                                 $('#d_date').text(submit_del_date);
                                 $('#ppg').text('$' + response[0]);
                                 $('#total').text('$' + response[1]);
+                                //$('#id_getquote').attr("disabled", true);
                             },
                             error: function(){
                                 $('#ppg').text('There is an error in getting quote.');
                             }
                         });
                         isQuote = true;
+                        return false;
                     });
                     //behavior for submit quote button
                     $('#id_submitquote').click(function(){
                         submit_gallon_req2 = document.getElementById("id_gr").value;
                         submit_del_date2 = document.getElementById("id_dd").value;
-                        if (isQuote == true) {                              //FIX REGET QUOTE  if new values != old values, fail 
+                        if (isQuote == true && submit_gallon_req2 == submit_gallon_req && submit_del_date2 == submit_del_date) {                               
                             //ajax call to get data from backend            //FIX MULTIREQUESTS
                             jQuery.ajax({
+                                async: false,
                                 type: 'POST',
                                 url: "../back_end/backend_fuel_quote_form.php",
                                 data: {submitquote: 1, gallon_req:submit_gallon_req2, del_date:submit_del_date2},

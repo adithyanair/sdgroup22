@@ -5,82 +5,82 @@
     class pricing_module_class{
         //Suggested Price =  Current Price * (Location Factor - Rate History Factor + Gallons Requested Factor + Company Profit Factor)
       
-//if in texas = 2%, outside of texas = 4%
-        function location_factor($db, $username) //THIS WORKS!
+        //if in texas = 2%, outside of texas = 4%
+        function location_factor($db, $username)
         {
-        $location_f = 0;
+            $location_f = 0;
+            
+            // query to fetch user id
+            $ID_query = "SELECT iduser
+                         FROM   user  
+                         WHERE  username = '$username' ";
+            $result_ID = mysqli_query($db, $ID_query);
+
+            // error checking
+            if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
+                echo "Could not successfully run query ($ID_query) from DB.";
+                exit;
+            }
+
+            // fetches user id from db
+            $value = $result_ID->fetch_object();
+            $ID_user = $value->iduser;
+
+            // query to fetch STATE from the user_info table
+            $profile_query = "SELECT state
+                              FROM   user_info
+                              WHERE  iduser = '$ID_user' ";
+            $result_profile = mysqli_query($db, $profile_query);
+
+            // fetches user profile info from db
+            $row_fetchProfile = mysqli_fetch_assoc($result_profile);
+
+            $state_fetch = $row_fetchProfile["state"];
+
+            if($state_fetch == 'TX'){
+                $location_f = 0.02;
+            }
+            else{
+                $location_f = 0.04;
+            }
+            return $location_f;
+        }
         
-        // query to fetch user id
-        $ID_query = "SELECT iduser
-        FROM   user  
-        WHERE  username = '$username' ";
-        $result_ID = mysqli_query($db, $ID_query);
-
-        // error checking
-        if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
-        echo "Could not successfully run query ($ID_query) from DB.";
-        exit;
-        }
-
-        // fetches user id from db
-        $value = $result_ID->fetch_object();
-        $ID_user = $value->iduser;
-
-        // query to fetch STATE from the user_info table
-        $profile_query = "SELECT state
-                         FROM   user_info
-                         WHERE  iduser = '$ID_user' ";
-        $result_profile = mysqli_query($db, $profile_query);
-
-        // fetches user profile info from db
-        $row_fetchProfile = mysqli_fetch_assoc($result_profile);
-
-        $state_fetch = $row_fetchProfile["state"];
-
-        if($state_fetch == 'TX'){
-            $location_f = 0.02;
-        }
-        else{
-            $location_f = 0.04;
-        }
-        return $location_f;
-
-        }
-//if client requested fuel before or check query fuel quote table to check if there are any rows for client
-           function ratehistory_factor($db, $username) //WORKS
-           {
+        //if client requested fuel before or check query fuel quote table to check if there are any rows for client
+        function ratehistory_factor($db, $username)
+        {
             $ratehistory = 0; 
 
             $ID_query = "SELECT iduser
-            FROM   user  
-            WHERE  username = '$username' ";
+                         FROM   user  
+                         WHERE  username = '$username' ";
             $result_ID = mysqli_query($db, $ID_query);
 
-           // error checking
-           if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
-           echo "Could not successfully run query ($ID_query) from DB.";
-           exit;
-           }
-           // fetches user id from db
-           $value = $result_ID->fetch_object();
-           $ID_user = $value->iduser;
-   
+            // error checking
+            if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
+                echo "Could not successfully run query ($ID_query) from DB.";
+                exit;
+            }
+            // fetches user id from db
+            $value = $result_ID->fetch_object();
+            $ID_user = $value->iduser;
+    
 
-           // query to fetch user profile info
-           $userinfo_query = "SELECT iduser_info
-                            FROM   user_info
-                            WHERE  iduser = '$ID_user' ";
-   
-           $result_iduserinfo = mysqli_query($db, $userinfo_query);
+            // query to fetch user profile info
+            $userinfo_query = "SELECT iduser_info
+                               FROM   user_info
+                               WHERE  iduser = '$ID_user' ";
+    
+            $result_iduserinfo = mysqli_query($db, $userinfo_query);
 
-           // fetches user profile info from db
-           $value2 = $result_iduserinfo->fetch_object();
-           $ID_userinfo = $value2->iduser_info;
-   
-           //query to fetch fuel quote info 
-           $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo' LIMIT 1";
-           $results = mysqli_query($db, $fuelquote_query);
-           $count = mysqli_num_rows($results);
+            // fetches user profile info from db
+            $value2 = $result_iduserinfo->fetch_object();
+            $ID_userinfo = $value2->iduser_info;
+    
+            //query to fetch fuel quote info 
+            $fuelquote_query = "SELECT * FROM fuel_quote WHERE iduser_info ='$ID_userinfo' LIMIT 1";
+            $results = mysqli_query($db, $fuelquote_query);
+            $count = mysqli_num_rows($results);
 
             // if count is great than 1, then there is client in the history
             if ($count) {
@@ -90,30 +90,27 @@
                 $ratehistory = 0;
                 
             }
-               return $ratehistory; 
-               
-           }
+            return $ratehistory; 
+        }
         
-//2% = above 1000 gallon, 3% if below 1000 gallons
-        function gallonrequested_factor($fuel_fetch) //need work
+        //2% = above 1000 gallon, 3% if below 1000 gallons
+        function gallonrequested_factor($fuel_fetch)
         {
-        $gallon_req_factor = 0; 
+            $gallon_req_factor = 0; 
         
-            if($fuel_fetch > 1000)
-            {
+            if($fuel_fetch > 1000){
                 $gallon_req_factor = 0.02; 
-                 /*echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
-                    //location = "fuel_quote_form.php"; </script>';*/
+                /*echo '<script>alert("Welcome '.$fuel_fetch.'!"); 
+                        location = "fuel_quote_form.php"; </script>';*/
                 //$this -> gallon_req_factor = 0.02;
                 //return $this -> gallon_req_factor;
             }
             if($fuel_fetch < 1000) 
             {
                 $gallon_req_factor = 0.03; 
-               // $this -> gallon_req_factor = 0.03; 
+                //$this -> gallon_req_factor = 0.03; 
                 //return $this -> gallon_req_factor;
             }
-               
             return $gallon_req_factor; 
         }
     
@@ -123,23 +120,16 @@
             $company_profit = 0.1; 
             $current_price = 1.5;
             $margin = ($location - $rate_history + $gallon_req_fac +$company_profit) * $current_price;
-
-            
-
             return $margin; 
-
         }
 
         //Margin calculation + current price which is constant
         function suggestedPrice($margin)
         {
-             
             $current_price = 1.5;
             $pricing_mod = $current_price + $margin;
             //return $this -> current_price + $this -> margin; 
-
             return $pricing_mod;
-        
         }
 
         //Total calculator Function 
@@ -147,7 +137,6 @@
         {
             return $pricing_mod * $gallon_req; 
         }
-
     }
 
     // checks if user profile is complete
@@ -161,12 +150,7 @@
                      WHERE  username = '$username' ";
 
         $result_ID = mysqli_query($db, $ID_query);
-        // error checking
-        if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
-            echo "Could not successfully run query ($ID_query) from DB.";
-            $failed = true;
-            exit;
-        }
+        
         // fetches user id from db
         $value = $result_ID->fetch_object();
         $ID_user = $value->iduser;
@@ -246,11 +230,7 @@
                          WHERE  username = '$username' ";
 
             $result_ID = mysqli_query($db, $ID_query);
-            // error checking
-            if (!$result_ID || mysqli_num_rows($result_ID) == 0) {
-                echo "Could not successfully run query ($ID_query) from DB.";
-                exit;
-            }
+            
             // fetches user id from db
             $value = $result_ID->fetch_object();
             $ID_user = $value->iduser;
@@ -261,11 +241,7 @@
                               WHERE  iduser = '$ID_user' ";
 
             $result_profile = mysqli_query($db, $profile_query);
-            // error checking
-            if (!$result_profile || mysqli_num_rows($result_profile) == 0) {
-                echo "Could not successfully run query ($profile_query) from DB.";
-                exit;
-            }
+            
             //fetches user profile info from db
             $row_fetchProfile = mysqli_fetch_assoc($result_profile);
 
@@ -294,7 +270,7 @@
                 $total_price_f = sprintf('%0.2f', $total_price_r);
                 $return_values=array($suggestedPrice, $total_price_f);
                 echo json_encode($return_values);
-                exit;
+                //exit;
             }
             
             //handles quote submission
@@ -308,7 +284,7 @@
                     echo "Could not successfully run query ($quote_submit_query) from DB.";
                     //exit;
                 }
-                exit;
+                //exit;
             }
             return true;
         }

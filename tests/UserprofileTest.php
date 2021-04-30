@@ -10,7 +10,7 @@
         protected function setUp(): void
         {
             // CHANGE THESE VARIABLES TO TEST
-            $_POST['client_name'] = "John Jones";
+            $_POST['client_name'] = "Tester Name";
             $_POST['client_add1'] = "9103 Jackwood Drive";
             $_POST['client_add2'] = "Apt. 103";
             $_POST['city'] = "Albany";
@@ -40,7 +40,7 @@
             require_once 'program_code/back_end/backend_user_info.php';
 
             // CHANGE THESE VARIABLES TO TEST
-            $_SESSION['username'] = 'john';
+            $_SESSION['username'] = 'test3';
             //connects to local database
 	        $db_test = mysqli_connect('localhost', 'root', '', 'sduserdb_test');
             // tests user profile management: if user exists, UserInfoHandler will return 1. If user is new, UserInfoHandler will return 2
